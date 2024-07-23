@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Registros Civiles</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesConsulta.css') }}">
+</head>
+<body>
+    <h1>Resultados de la consulta</h1>
+
+    {% if resultados %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo de Registro Civil</th>
+                    <th>Serial del Registro Civil</th>
+                    <th>Número de Identificación</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
+                    <th>Primer Nombre</th>
+                    <th>Segundo Nombre</th>
+                    <th>Sexo</th>
+                    <th>Fecha de Nacimiento</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resultado in resultados %}
+                    <tr>
+                        <td>{{ resultado[0] }}</td>  {# Tipo de Registro Civil #}
+                        <td>{{ resultado[1] }}</td>  {# Serial del Registro Civil #}
+                        <td>{{ resultado[2] }}</td>  {# Número de Identificación #}
+                        <td>{{ resultado[3] }}</td>  {# Primer Apellido #}
+                        <td>{{ resultado[4] }}</td>  {# Segundo Apellido #}
+                        <td>{{ resultado[5] }}</td>  {# Primer Nombre #}
+                        <td>{{ resultado[6] }}</td>  {# Segundo Nombre #}
+                        <td>{{ resultado[7] }}</td>  {# Sexo #}
+                        <td>{{ resultado[8] }}</td>  {# Fecha de Nacimiento #}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No se encontraron resultados.</p>
+    {% endif %}
+
+    <p><a href="/">Volver al formulario</a></p>
+</body>
+</html>

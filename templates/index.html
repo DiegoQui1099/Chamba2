@@ -1,494 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-    <meta content="IE=5; IE=7; IE=8" http-equiv="X-UA-Compatible">  
-    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
-    <link href="Estilos/sccrcgeneral.css" media="all" rel="stylesheet" type="text/css">
-    <link href="assets/css/simple-line-icons.css" rel="stylesheet">
-    <link href="assets/css/magnific-popup.css" rel="stylesheet">
-    <link href="assets/css/quick-events.css" rel="stylesheet">
-    <link href="assets/css/datatables.css" rel="stylesheet" type="text/css">
-    <link crossorigin="anonymous" href="css/bootstrap.css" rel="stylesheet">
-    <link crossorigin="anonymous" href="css/design-system.css" rel="stylesheet">
-    <title>Consulta y Certificados Web</title><script src="/ProyectoSCCRC/faces/javax.faces.resource/jsf.js;jsessionid=b3ea7da357fcdd04b0d5987bc1bb?ln=javax.faces" type="text/javascript"></script><script src="/ProyectoSCCRC/faces/javax.faces.resource/bridge.js;jsessionid=b3ea7da357fcdd04b0d5987bc1bb?rand=855114819" type="text/javascript"></script><script src="/ProyectoSCCRC/faces/javax.faces.resource/compat.js;jsessionid=b3ea7da357fcdd04b0d5987bc1bb" type="text/javascript"></script><script src="/ProyectoSCCRC/faces/javax.faces.resource/icefaces-compat.js;jsessionid=b3ea7da357fcdd04b0d5987bc1bb" type="text/javascript"></script><script type="text/javascript" src="js/consultarRegistroCivil.js"></script><script type="text/javascript" src="js/consultarRegistroCivil.js"></script></head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Registros Civiles</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>Consulta de Registros Civiles</h1>
 
-</head>    
+    <form action="/" method="post">
+        <div class="bloque-formulario tipo-busqueda">
+            <label for="tipo_registro_civil">Tipo de Registro Civil:</label>
+            <select name="tipo_registro_civil" id="tipo_registro_civil">
+                <option value="nacimiento">Registro Civil de Nacimiento</option>
+                <option value="matrimonio">Registro Civil de Matrimonio</option>
+            </select>
+        </div>
 
-<body class="mainc" style="cursor: default;">
+        <div class="bloque-formulario tipo-busqueda">
+            <label for="tipo_busqueda">Tipo de búsqueda:</label>
+            <select name="tipo_busqueda" id="tipo_busqueda">
+                <option value="apellidos_nombres">Apellidos y Nombres</option>
+                <option value="numero_identificacion">Documento (Nuip/Nip/Tarjeta de Identidad)</option>
+                <option value="todos_criterios">Todos los criterios</option>
+                <option value="serial">Serial</option>
+            </select>
+        </div>
+
+        <div class="bloque-formulario">
+            <label for="serial_registro_civil">Serial del Registro Civil:</label>
+            <input type="text" name="serial_registro_civil" id="serial_registro_civil">
+        </div>
+
+        <div class="bloque-formulario">
+            <label for="numero_identificacion">Número de Identificación (Nuip/Nip/Tarjeta de Identidad):</label>
+            <input type="text" name="numero_identificacion" id="numero_identificacion">
+        </div>
+
+        <div class="bloque-formulario">
+            <label for="primer_apellido">Primer Apellido:</label>
+            <input type="text" name="primer_apellido" id="primer_apellido">
+        </div>
+
+        <div class="bloque-formulario">
+            <label for="segundo_apellido">Segundo Apellido:</label>
+            <input type="text" name="segundo_apellido" id="segundo_apellido">
+        </div>
+
+        <div class="bloque-formulario">
+            <label for="primer_nombre">Primer Nombre:</label>
+            <input type="text" name="primer_nombre" id="primer_nombre">
+        </div>
+
+        <div class="bloque-formulario">
+            <label for="segundo_nombre">Segundo Nombre:</label>
+            <input type="text" name="segundo_nombre" id="segundo_nombre">
+        </div>
+
+        <div class="bloque-formulario">
+            <label for="sexo">Sexo:</label>
+            <select name="sexo" id="sexo">
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Sin información</option>
+            </select>
+        </div>
+
+        <div class="bloque-formulario">
+            <label for="fecha_nacimiento">Fecha de Nacimiento (dd/mm/aaaa):</label>
+            <input type="text" name="fecha_nacimiento" id="fecha_nacimiento">
+        </div>
+
+        <button type="submit">Consultar</button>
+    </form>
+    <footer id="footer">
         <div class="container">
-            <div class="navbar deskheader">
-                <div class="container-fluid">
-                    <a class="navbar-brand logoregistraduria" href="https://www.registraduria.gov.co/">
-                    </a>
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="logo-container">
+                        <img class="log-rncefooter" src="{{ url_for('static', filename='img/mainlogo-white.svg') }}" style="max-width: 150px; height: auto;" alt="Logo">
+                    </div>
+                    <div class="socialnet-container">
+                        <a class="socialnet" href="https://www.facebook.com/RegistraduriaNacional/">
+                            <img src="{{ url_for('static', filename='img/ico-footer-facebook.svg') }}" alt="Facebook">
+                        </a>
+                        <a class="socialnet twitter" href="https://twitter.com/Registraduria">
+                            <img src="{{ url_for('static', filename='img/ico-footer-twitter.svg') }}" alt="Twitter">
+                        </a>
+                        <a class="socialnet youtube" href="https://www.youtube.com/user/RegistraduriaNal#">
+                            <img src="{{ url_for('static', filename='img/ico-footer-youtube.svg') }}" alt="Youtube">
+                        </a>
+                        <a class="socialnet instagram" href="https://www.instagram.com/registraduria/">
+                            <img src="{{ url_for('static', filename='img/ico-footer-instagram.svg') }}" alt="Instagram">
+                        </a>
+                        <a class="socialnet linkedin" href="https://www.linkedin.com/company/registradur%C3%ADa-nacional-del-estado-civil/">
+                            <img src="{{ url_for('static', filename='img/ico-footer-linkedin.svg') }}" alt="Linkedin">
+                        </a>
+                        <a class="socialnet tiktok" href="https://www.tiktok.com/@registraduria/">
+                            <img src="{{ url_for('static', filename='img/ico-footer-tiktok.png') }}" alt="TikTok">
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div id="container">
-            <div>
-
-                <div id="colbannerprincipal" style="margin-top:10px; "></div>
-                <form action="/ProyectoSCCRC/faces/Certificados/consultarRegistroCivil.xhtml" class="searchForm"
-                    enctype="application/x-www-form-urlencoded" id="searchForm" method="post" name="searchForm">
-                    <input name="searchForm" type="hidden" value="searchForm">
-                    <input name="ice.window" type="hidden" value="lilysr7j6i"><input name="ice.view" type="hidden"
-                        value="ve542tfaxq">
-                    <center>
-                        <h2 class="text-center"><b>SISTEMA DE CONSULTAS Y CERTIFICADOS DE REGISTROS CIVILES</b></h2>
-                        <br>
-
-                        <div align="center">
-
-                        </div>
-                        <table bgcolor="transparent" cellspacing="5" columns="4" frame="box1">
-                            <tbody>
-                                <tr>
-                                    <td><label id="searchForm:_t7">
-                                            Tipo de Registro Civil:</label></td>
-                                    <td><select id="searchForm:registroCivil" name="searchForm:registroCivil"
-                                            onchange="changeFechaLabel()" onclick="activarCampos()" size="1"
-                                            style="font-size: 10px; font-family: Verdana, Helvetica; font-weight: bold; background-color: #C5E7E6; color: #000000; border: 0px solid #000000; width: 300px; height: 19px;">
-                                            <option value="REGISTRO CIVIL DE NACIMIENTO">REGISTRO CIVIL DE NACIMIENTO
-                                            </option>
-                                            <option value="REGISTRO CIVIL DE MATRIMONIO">REGISTRO CIVIL DE MATRIMONIO
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td><label id="searchForm:_t11">
-                                        </label></td>
-                                    <td><label id="searchForm:_t13">
-                                        </label></td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t15">
-                                            Tipo de busqueda: </label></td>
-
-                                    <td><select id="searchForm:tiposBusqueda" name="searchForm:tiposBusqueda"
-                                            onchange="activarCampos();" size="1"
-                                            style="font-size: 10px; font-family: Verdana, Helvetica; font-weight: bold; background-color: #C5E7E6; color: #000000; ">
-                                            <option value="NOMBRES/APELLIDOS">NOMBRES/APELLIDOS</option>
-                                            <option value="DOCUMENTO (NUIP/NIP/Tarjeta de Identidad)">DOCUMENTO
-                                                (NUIP/NIP/Tarjeta de Identidad)</option>
-                                            <option value="TODOS LOS CRITERIOS">TODOS LOS CRITERIOS</option>
-                                            <option value="SERIAL">SERIAL</option>
-                                        </select></td>
-                                    <td>
-                                        <div class="icePnlGrp" id="searchForm:j_idt18"
-                                            onmouseover="; new ToolTipPanelPopup(this, 'searchForm:staticTooltipTipoBusqueda', event, 'mouseout','500', 'false', 'searchForm', '','/ProyectoSCCRC/xmlhttp/blank','hover',false);">
-                                            <img height="15px"
-                                                onmousemove="return  corrigePos('247px','674px','40px', '500px','searchForm:staticTooltipTipoBusqueda','relative');"
-                                                src="/ProyectoSCCRC/Imagenes/question.png" width="15px"></div>
-                                        <div class="icePnlTlTip" id="searchForm:staticTooltipTipoBusqueda"
-                                            name="searchForm:staticTooltipTipoBusqueda"
-                                            style="background: rgb(239, 245, 250); visibility: hidden; position: absolute; top: 246.333px; left: 562px; display: none;">
-                                            <table cellpadding="0" cellspacing="0">
-                                                <tbody>
-                                                    <tr id="searchForm:staticTooltipTipoBusqueda-tr">
-                                                        <td class="icePnlTlTipBody" colspan="2"><label class=""
-                                                                id="searchForm:_t20">
-                                                                Lista de selección de criterios para encontrar un
-                                                                registro civil. </label></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table><span id="searchForm:staticTooltipTipoBusquedascript"></span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t22">
-                                        </label></td>
-                                    <td><label id="searchForm:_t24">
-                                        </label></td>
-                                    <td><label id="searchForm:_t26">
-                                        </label></td>
-                                    <td><label id="searchForm:_t28">
-                                        </label></td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t30">
-                                            Serial del Registro Civil:</label></td>
-                                    <td><input autocomplete="off" class="textboxserial" id="searchForm:serial"
-                                            maxlength="10" name="searchForm:serial"
-                                            onchange="isNumeric(this),caracterEspecial(this)" type="text" value=""
-                                            style="background-color: rgb(197, 231, 230);"> </td>
-                                    <td>
-                                        <div class="icePnlGrp" id="searchForm:j_idt33"
-                                            onmouseover="; new ToolTipPanelPopup(this, 'searchForm:staticTooltipSerial', event, 'mouseout','500', 'false', 'searchForm', '','/ProyectoSCCRC/xmlhttp/blank','hover',false);">
-                                            <img height="15px"
-                                                onmousemove="return  corrigePos('317px','674px','10%', '500px','searchForm:staticTooltipSerial','relative');"
-                                                src="/ProyectoSCCRC/Imagenes/question.png" width="15px"></div>
-                                        <div class="icePnlTlTip" id="searchForm:staticTooltipSerial"
-                                            name="searchForm:staticTooltipSerial"
-                                            style="background: rgb(239, 245, 250); visibility: hidden; position: absolute; top: 232px; left: 559px; display: none;">
-                                            <table cellpadding="0" cellspacing="0">
-                                                <tbody>
-                                                    <tr id="searchForm:staticTooltipSerial-tr">
-                                                        <td class="icePnlTlTipBody" colspan="2"><label class=""
-                                                                id="searchForm:_t35">
-                                                                Número impreso en el Registro Civil. </label></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table><span id="searchForm:staticTooltipSerialscript"></span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td><label id="searchForm:_t37">
-                                            Número de Identificación (Nuip/Nip/<br>Tarjeta de Identidad):</label></td>
-                                    <td><input autocomplete="off" class="textboxdocumento" id="searchForm:documento"
-                                            maxlength="11" name="searchForm:documento"
-                                            onchange="cerosIzquierda(this),correctFormatNipNuip(this),conMayusculas(this),caracterEspecial(this)"
-                                            type="text" value="" disabled=""
-                                            style="background-color: rgb(211, 211, 211);"></td>
-                                    <td>
-                                        <div class="icePnlGrp" id="searchForm:j_idt40"
-                                            onmouseover="; new ToolTipPanelPopup(this, 'searchForm:staticTooltipDocumento', event, 'mouseout','500', 'false', 'searchForm', '','/ProyectoSCCRC/xmlhttp/blank','hover',false);">
-                                            <img height="15px"
-                                                onmousemove="return  corrigePos('377px','674px','10%', '600px','searchForm:staticTooltipDocumento','relative');"
-                                                src="/ProyectoSCCRC/Imagenes/question.png" width="15px"></div>
-                                        <div class="icePnlTlTip" id="searchForm:staticTooltipDocumento"
-                                            name="searchForm:staticTooltipDocumento"
-                                            style="background: rgb(239, 245, 250); visibility: hidden; position: absolute; top: 245px; left: 560px; display: none;">
-                                            <table cellpadding="0" cellspacing="0">
-                                                <tbody>
-                                                    <tr id="searchForm:staticTooltipDocumento-tr">
-                                                        <td class="icePnlTlTipBody" colspan="2"><span class="iceOutTxt"
-                                                                id="searchForm:j_idt42">Número de identificación a
-                                                                consultar (NUIP, NIP, ALFANÚMERICO, Número
-                                                                identificación)</span></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table><span id="searchForm:staticTooltipDocumentoscript"></span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t44">
-                                            Primer Apellido:</label></td>
-                                    <td><input autocomplete="off" class="textboxconsultanombres"
-                                            id="searchForm:primerApellido" maxlength="60"
-                                            name="searchForm:primerApellido" onchange="conMayusculas(this)" type="text"
-                                            value="" disabled="" style="background-color: rgb(211, 211, 211);"> </td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t47">
-                                            Segundo Apellido:</label></td>
-                                    <td><input autocomplete="off" class="textboxconsultanombres"
-                                            id="searchForm:segundoApellido" maxlength="60"
-                                            name="searchForm:segundoApellido" onchange="conMayusculas(this)" type="text"
-                                            value="" disabled="" style="background-color: rgb(211, 211, 211);"></td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t50">
-                                            Primer Nombre:</label></td>
-                                    <td><input autocomplete="off" class="textboxconsultanombres"
-                                            id="searchForm:primerNombre" maxlength="60" name="searchForm:primerNombre"
-                                            onchange="conMayusculas(this)" type="text" value="" disabled=""
-                                            style="background-color: rgb(211, 211, 211);"></td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t53">
-                                            Segundo Nombre:</label></td>
-                                    <td><input autocomplete="off" class="textboxconsultanombres"
-                                            id="searchForm:segundoNombre" maxlength="60" name="searchForm:segundoNombre"
-                                            onchange="conMayusculas(this)" type="text" value="" disabled=""
-                                            style="background-color: rgb(211, 211, 211);"></td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t56">
-                                            Sexo:</label></td>
-                                    <td><select id="searchForm:sexo" name="searchForm:sexo" size="1"
-                                            style="font-size: 10px; font-family: Verdana, Helvetica; font-weight: bold; background-color: rgb(211, 211, 211); color: rgb(0, 0, 0); border: 0px solid rgb(0, 0, 0); width: 300px; height: 19px;"
-                                            disabled="">
-                                            <option value="" selected="true"></option>
-                                            <option value="MASCULINO">MASCULINO</option>
-                                            <option value="FEMENINO">FEMENINO</option>
-                                            <option value="SIN INFORMACION">SIN INFORMACION</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:fechaRegistro">
-                                            Fecha nacimiento (dd/mm/aaaa)</label></td>
-                                    <td>
-                                        <div class="iceSelInpDatePopup calendarboxbusquedaPopup"
-                                            id="searchForm:calendar1_rd" style="width:300px;"><input autocomplete="off"
-                                                class="iceSelInpDateInput calendarboxbusquedaInput"
-                                                id="searchForm:calendar1" name="searchForm:calendar1"
-                                                onblur="setFocus('');" onfocus="setFocus('');"
-                                                onkeypress="iceSubmit(form,this,event);" title="Date format: dd/MM/yyyy"
-                                                type="text" value="" disabled=""
-                                                style="background-color: rgb(211, 211, 211);"><input
-                                                alt="Open popup calendar" id="searchForm:calendar1_cb"
-                                                name="searchForm:calendar1_cb"
-                                                onclick="document.forms['searchForm']['searchForm:j_idcl'].value='searchForm:calendar1_cb';document.forms['searchForm']['searchForm:j_idsearchForm:calendar1sp'].value='toggle';iceSubmitPartial( document.forms['searchForm'], this,event);document.forms['searchForm']['searchForm:j_idcl'].value='';document.forms['searchForm']['searchForm:j_idsearchForm:calendar1sp'].value='';Ice.Calendar.addCloseListener('searchForm:calendar1','searchForm','searchForm:j_idcl','searchForm:j_idsearchForm:calendar1sp');return false;"
-                                                onfocus="setFocus('');" src="./Imagenes/cal_button.gif"
-                                                title="Open popup calendar" type="image" value="" disabled=""
-                                                style="background-color: rgb(211, 211, 211);"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t62">
-                                            Imagen de Verificación:</label></td>
-
-                                    <td><img src="/ProyectoSCCRC/kaptcha.jpg?t0.47284040450878706s"></td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t66">
-                                        </label></td>
-                                    <td><input autocomplete="off" class="textboxconsultanombres"
-                                            id="searchForm:inCaptcha" maxlength="10" name="searchForm:inCaptcha"
-                                            type="text"></td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t69">
-                                        </label></td>
-                                    <td><input class="botones_consulta" id="searchForm:busquedaRCX"
-                                            name="searchForm:busquedaRCX" onclick="return validaInformacionBusqueda();"
-                                            style="width: 300px;" type="submit" value="Buscar Registro Civil">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label id="searchForm:_t72">
-                                        </label></td>
-
-                                    <td></td>
-                                </tr>
-
-                                <tr>
-                                    <td><span id="searchForm:errorMsg"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </center>
-
-                    <div align="center">
-                        <div id="searchForm:j_idt76"></div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="menu-footer">
+                        <p class="white">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Av. Calle 26 n.º 51-50, CAN, Bogotá, Colombia. CP: 111321 
+                        </p>
+                        <p class="white">
+                            <i class="fa-solid fa-envelope"></i>
+                            Horario de atención correspondencia de lunes a viernes de 8:00 a. m. a 4:30 p. m. en jornada continua (Sede CAN av. calle 26 nº 51-50)
+                        </p>
+                        <p class="white">
+                            <i class="fa-solid fa-phone"></i>
+                            Conmutador: +57 (601) 220 2880
+                        </p>
+                        <p class="white">
+                            <i class="fa-solid fa-clock"></i>
+                            Centro de Atención e Información Ciudadana (CAIC): Carrera 7.ª n.º 16-49, edificio Córdoba.<br>Horario: 8:00 a. m. a 4:00 p. m., en jornada continua 
+                        </p>
+                        <p class="white">
+                            <i class="fa-solid fa-copyright"></i>
+                            Copyright 2022 - Todos los derechos reservados Registraduría Nacional del Estado Civil. 
+                        </p>
                     </div>
-                    <br>
-                    <div align="center"><label id="searchForm:_t78">
-                        </label><label id="searchForm:_t79"
-                            style="margin-left:20px; font-size: 14px; font-family: Verdana, Helvetica; font-weight: bold; width: 350px; height: 19px;">
-                            RESULTADO DE LA BUSQUEDA</label>
-                    </div>
-
-                    <div align="center">
-                        <img id="spinnerImg" src="Imagenes/circulo_progreso.gif" style="display: none; ">
-                    </div>
-                    <br>
-
-                    <div align="center">
-                        <table bgcolor="#eff5fa" cellpadding="5" cellspacing="0" class="iceDatTbl tablaresultado"
-                            id="searchForm:data" style="text-align: center">
-                            <thead id="searchForm:data:thead">
-                                <tr>
-                                    <th class="iceDatTblColHdr1 tablaresultadoColHdr1 tablaresultadoHdr" scope="col"
-                                        style="width:100px;"><label id="searchForm:data:_t82">
-                                            Serial</label></th>
-                                    <th class="iceDatTblColHdr2 tablaresultadoColHdr2 tablaresultadoHdr" scope="col"
-                                        style="width:130px;"><label id="searchForm:data:_t85">
-                                            Documento (Nuip/Nip/ Tarjeta de Identidad)</label></th>
-                                    <th class="iceDatTblColHdr1 tablaresultadoColHdr1 tablaresultadoHdr" scope="col"
-                                        style="width:100px;"><label id="searchForm:data:_t88">
-                                            Primer Apellido</label></th>
-                                    <th class="iceDatTblColHdr2 tablaresultadoColHdr2 tablaresultadoHdr" scope="col"
-                                        style="width:120px;"><label id="searchForm:data:_t91">
-                                            Segundo Apellido</label></th>
-                                    <th class="iceDatTblColHdr1 tablaresultadoColHdr1 tablaresultadoHdr" scope="col"
-                                        style="width: 100px;"><label id="searchForm:data:_t94">
-                                            Primer Nombre</label></th>
-                                    <th class="iceDatTblColHdr2 tablaresultadoColHdr2 tablaresultadoHdr" scope="col"
-                                        style="width:100px;"><label id="searchForm:data:_t97">
-                                            Segundo Nombre</label></th>
-                                    <th class="iceDatTblColHdr1 tablaresultadoColHdr1 tablaresultadoHdr" scope="col"
-                                        style="width: 100px;"><label id="searchForm:data:_t100">
-                                            Tipo de Registro Civil</label></th>
-                                    <th class="iceDatTblColHdr2 tablaresultadoColHdr2 tablaresultadoHdr" scope="col"
-                                        style="width:100px;"><label id="searchForm:data:_t103">
-                                            Detalle</label></th>
-                                </tr>
-                            </thead>
-                            <tbody id="searchForm:data:tbody">
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div align="center">
-                        <table class="iceDatPgr" id="searchForm:paginador" name="searchForm:data"
-                            onkeydown="Ice.DatPagKybrd(this.id, event);">
-                            <tbody>
-                                <tr>
-                                    <td class="iceDatPgrScrBtn"><a class="iceCmdLnk iceCmdLnk-dis" href="javascript:;"
-                                            id="searchForm:paginadorfirst" onblur="setFocus('');"
-                                            onclick="return false;var form=formOf(this);form['searchForm:j_idcl'].value='searchForm:paginadorfirst';form['searchForm:paginador'].value='first';iceSubmit(form,this,event);form['searchForm:j_idcl'].value='';form['searchForm:paginador'].value='';return false;"
-                                            onfocus="setFocus(this.id);" style="cursor:default;"><img alt=""
-                                                class="iceGphImg" id="searchForm:j_idt106"
-                                                src="./xmlhttp/css/xp/css-images/arrow-first.gif" style="border:none;"
-                                                title="Primer pagina"></a></td>
-                                    <td class="iceDatPgrScrBtn"><a class="iceCmdLnk iceCmdLnk-dis" href="javascript:;"
-                                            id="searchForm:paginadorfastr" onblur="setFocus('');"
-                                            onclick="return false;var form=formOf(this);form['searchForm:j_idcl'].value='searchForm:paginadorfastr';form['searchForm:paginador'].value='fastr';iceSubmit(form,this,event);form['searchForm:j_idcl'].value='';form['searchForm:paginador'].value='';return false;"
-                                            onfocus="setFocus(this.id);" style="cursor:default;"><img alt=""
-                                                class="iceGphImg" id="searchForm:j_idt112"
-                                                src="./xmlhttp/css/xp/css-images/arrow-fr.gif" style="border:none;"
-                                                title="Atrasar"></a></td>
-                                    <td class="iceDatPgrScrBtn"><a class="iceCmdLnk iceCmdLnk-dis" href="javascript:;"
-                                            id="searchForm:paginadorprevious" onblur="setFocus('');"
-                                            onclick="return false;var form=formOf(this);form['searchForm:j_idcl'].value='searchForm:paginadorprevious';form['searchForm:paginador'].value='previous';iceSubmit(form,this,event);form['searchForm:j_idcl'].value='';form['searchForm:paginador'].value='';return false;"
-                                            onfocus="setFocus(this.id);" style="cursor:default;"><img alt=""
-                                                class="iceGphImg" id="searchForm:j_idt109"
-                                                src="./xmlhttp/css/xp/css-images/arrow-previous.gif"
-                                                style="border:none;" title="Pagina Anterior"></a></td>
-                                    <td>
-                                        <table></table>
-                                    </td>
-                                    <td class="iceDatPgrScrBtn"><a class="iceCmdLnk iceCmdLnk-dis" href="javascript:;"
-                                            id="searchForm:paginadornext" onblur="setFocus('');"
-                                            onclick="return false;var form=formOf(this);form['searchForm:j_idcl'].value='searchForm:paginadornext';form['searchForm:paginador'].value='next';iceSubmit(form,this,event);form['searchForm:j_idcl'].value='';form['searchForm:paginador'].value='';return false;"
-                                            onfocus="setFocus(this.id);" style="cursor:default;"><img alt=""
-                                                class="iceGphImg" id="searchForm:j_idt110"
-                                                src="./xmlhttp/css/xp/css-images/arrow-next.gif" style="border:none;"
-                                                title="Proxima Pagina"></a></td>
-                                    <td class="iceDatPgrScrBtn"><a class="iceCmdLnk iceCmdLnk-dis" href="javascript:;"
-                                            id="searchForm:paginadorfastf" onblur="setFocus('');"
-                                            onclick="return false;var form=formOf(this);form['searchForm:j_idcl'].value='searchForm:paginadorfastf';form['searchForm:paginador'].value='fastf';iceSubmit(form,this,event);form['searchForm:j_idcl'].value='';form['searchForm:paginador'].value='';return false;"
-                                            onfocus="setFocus(this.id);" style="cursor:default;"><img alt=""
-                                                class="iceGphImg" id="searchForm:j_idt111"
-                                                src="./xmlhttp/css/xp/css-images/arrow-ff.gif" style="border:none;"
-                                                title="Adelantar"></a></td>
-                                    <td class="iceDatPgrScrBtn"><a class="iceCmdLnk iceCmdLnk-dis" href="javascript:;"
-                                            id="searchForm:paginadorlast" onblur="setFocus('');"
-                                            onclick="return false;var form=formOf(this);form['searchForm:j_idcl'].value='searchForm:paginadorlast';form['searchForm:paginador'].value='last';iceSubmit(form,this,event);form['searchForm:j_idcl'].value='';form['searchForm:paginador'].value='';return false;"
-                                            onfocus="setFocus(this.id);" style="cursor:default;"><img alt=""
-                                                class="iceGphImg" id="searchForm:j_idt107"
-                                                src="./xmlhttp/css/xp/css-images/arrow-last.gif" style="border:none;"
-                                                title="Ultima Pagina"></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-
-
-
-                    <br><input class="mainbtn btn-action" id="searchForm:volverconsulta"
-                        name="searchForm:volverconsulta" type="submit" value="Volver">
-                    <br><input class="mainbtn  btn-action" id="searchForm:buttonLimpiar" name="searchForm:buttonLimpiar"
-                        type="submit" value="Limpiar">
-                    <br><input class="mainbtn  btn-action" id="searchForm:rnec" name="searchForm:rnec" type="submit"
-                        value="Página principal de RNEC">
-                    <br>
-                    <br><span id="searchFormhdnFldsDiv"><input name="icefacesCssUpdates" type="hidden" value=""><input
-                            name="searchForm:paginador" type="hidden"><input name="searchForm:j_idcl"
-                            type="hidden"><input name="searchForm:j_idsearchForm:calendar1sp" type="hidden"><input
-                            name="searchForm:calendar1_cc" type="hidden"></span>
-                    <input name="javax.faces.ViewState" value="4844511177694713339:-993363837930266543"
-                        type="hidden"><input id="iceTooltipInfo" name="iceTooltipInfo" type="hidden"
-                        value="tooltip_id=searchForm:staticTooltipTipoBusqueda; tooltip_src_id=searchForm:j_idt18; tooltip_state=hide; tooltip_x=558; tooltip_y=237; cntxValue=">
-                </form>
-                <div class="limpiar"></div>
-                <div align="center" style="width: 998px;">
                 </div>
-                <div class="limpiar"></div>
-            </div>
-            <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-        </div>
-
-
-
-        <footer id="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="disclamer col-lg-4 col-md-12 col-sm-12">
-                        <div class="logo-container">
-                            <img class="log-rncefooter" src="images/mainlogo-white.svg">
+                <div class="col-lg-4">
+                    <div class="content-footer">
+                        <div class="content-sections">
+                            <a href="/Politicas-de-privacidad-y-condiciones-de-uso.html?var_mode=calcul" target="_blank">
+                                <p class="white">Políticas de privacidad</p>
+                            </a>
+                            <a href="https://correo.registraduria.gov.co/owa/auth/logon.aspx?replaceCurrent=1" target="_blank">
+                                <p class="white">Correo institucional</p>
+                            </a>
+                            <a href="https://www.office.com/" target="_blank">
+                                <p class="white">Correo institucional (Office 365)</p>
+                            </a>
+                            <a href="/Politicas-de-privacidad-y-condiciones-de-uso.html?var_mode=calcul" target="_blank">
+                                <p class="white">Condiciones de uso</p>
+                            </a>
                         </div>
-                        <div class="socialnet-container">
-                            <a class="socialnet facebook" href="https://www.facebook.com/RegistraduriaNacional/"></a>
-                            <a class="socialnet twitter" href="https://twitter.com/Registraduria"></a>
-                            <a class="socialnet youtube" href="https://www.youtube.com/user/RegistraduriaNal#"></a>
-                            <a class="socialnet instagram" href="https://www.instagram.com/registraduria/"></a>
-                            <a class="socialnet linkedin"
-                                href="https://www.linkedin.com/company/registradur%C3%ADa-nacional-del-estado-civil/"></a>
-                            <a class="socialnet tiktok"
-                                href="https://www.linkedin.com/company/registradur%C3%ADa-nacional-del-estado-civil/"></a>
+                        <div class="content-sections">
+                            <a target="_blank">
+                                <p class="white">Mapa del sitio</p>
+                            </a>
+                            <a href="https://wsp.registraduria.gov.co/contactenos/" target="_blank">
+                                <p class="white">Contáctenos</p>
+                            </a>
+                            <a href="https://biblioteca.registraduria.gov.co/pmb/opac_css/index.php" target="_blank">
+                                <p class="white">Biblioteca </p>
+                            </a>
+                            <a href="https://intranet.registraduria.gov.co/" target="_blank">
+                                <p class="white">Intranet</p>
+                            </a>
                         </div>
-                    </div>
-                    <div class="menu-footer col-lg-4 col-md-12 col-sm-12">
-                        <p class="white"><i class="fa-solid fa-location-dot"></i> Av. Calle 26 n.º 51-50, CAN, Bogotá,
-                            Colombia. CP: 111321 </p>
-                        <p class="white"><i class="fa-solid fa-envelope"></i> Horario de atención correspondencia de
-                            lunes a viernes de 8:00 a. m. a 4:30 p. m. en jornada continua (Sede CAN av. calle 26 nº
-                            51-50)</p>
-                        <p class="white"> <i class="fa-solid fa-phone"></i> Conmutador: +57 (601) 220 2880</p>
-                        <p class="white"><i class="fa-solid fa-clock"></i> Centro de Atención e Información Ciudadana
-                            (CAIC): Carrera 7.ª n.º 16-49, edificio Córdoba.<br>Horario: 8:00 a. m. a 4:00 p. m., en
-                            jornada continua </p>
-                        <p class="white"><i class="fa-solid fa-copyright"></i> Copyright 2022 - Todos los derechos
-                            reservados Registraduría Nacional del Estado Civil. </p>
-                    </div>
-                    <div class="col-lg-4 col-md-12 col-sm-12">
-                        <div class="content-footer">
-                            <div class="content-sections">
-                                <a href="/Politicas-de-privacidad-y-condiciones-de-uso.html?var_mode=calcul"
-                                    target="_blank">
-                                    <p class="white"> Políticas de privacidad</p>
-                                </a>
-                                <a href="https://correo.registraduria.gov.co/owa/auth/logon.aspx?replaceCurrent=1"
-                                    target="_blank">
-                                    <p class="white"> Correo institucional</p>
-                                </a>
-                                <a href="https://www.office.com/" target="_blank">
-                                    <p class="white"> Correo institucional (Office 365)</p>
-                                </a>
-                                <a href="/Politicas-de-privacidad-y-condiciones-de-uso.html?var_mode=calcul"
-                                    target="_blank">
-                                    <p class="white"> Condiciones de uso</p>
-                                </a>
-                            </div>
-                            <div class="content-sections">
-                                <a target="_blank">
-                                    <p class="white"> Mapa del sitio</p>
-                                </a>
-                                <a href="https://wsp.registraduria.gov.co/contactenos/" target="_blank">
-                                    <p class="white"> Contáctenos</p>
-                                </a>
-                                <a href="https://biblioteca.registraduria.gov.co/pmb/opac_css/index.php"
-                                    target="_blank">
-                                    <p class="white"> Biblioteca </p>
-                                </a>
-                                <a href="https://intranet.registraduria.gov.co/" target="_blank">
-                                    <p class="white"> Intranet</p>
-                                </a>
-                            </div>
-                            <div class="content-sections">
-                                <a href="https://wsp.registraduria.gov.co/normatividad/" target="_blank">
-                                    <p class="white"> Normativa</p>
-                                </a>
-                                <a href="/-Procedimientos-150-.html?var_mode=calcul" target="_blank">
-                                    <p class="white"> Correos judiciales</p>
-                                </a>
-                                <a href="https://wsp.registraduria.gov.co/contacto/" target="_blank">
-                                    <p class="white"> PQRSDC</p>
-                                </a>
-                                <a href="/Glosario.html?var_mode=calcul" target="_blank">
-                                    <p class="white"> Glosario</p>
-                                </a>
-                            </div>
+                        <div class="content-sections">
+                            <a href="https://wsp.registraduria.gov.co/normatividad/" target="_blank">
+                                <p class="white">Normativa</p>
+                            </a>
+                            <a href="/-Procedimientos-150-.html?var_mode=calcul" target="_blank">
+                                <p class="white">Correos judiciales</p>
+                            </a>
+                            <a href="https://wsp.registraduria.gov.co/contacto/" target="_blank">
+                                <p class="white">PQRSDC</p>
+                            </a>
+                            <a href="/Glosario.html?var_mode=calcul" target="_blank">
+                                <p class="white">Glosario</p>
+                            </a>
                         </div>
                     </div>
+                    
                 </div>
             </div>
             <div class="row bar-footer">
@@ -496,33 +184,16 @@
                     <p class="white">Última actualización 11:39 am julio 5 de 2022</p>
                 </div>
                 <div class="col-6">
-                    <p class="white">Recomendado uso de <i class="fa-brands fa-chrome"></i> <a class="white"
-                            href="https://www.google.com/chrome/browser/desktop/index.html"><i class="icon-chrome"></i>
-                            Google Chrome </a></p>
+                    <p class="white">
+                        Recomendado uso de <i class="fa-brands fa-chrome"></i>
+                        <a class="white" href="https://www.google.com/chrome/browser/desktop/index.html">
+                            <i class="icon-chrome"></i>
+                            Google Chrome 
+                        </a>
+                    </p>
                 </div>
             </div>
-        </footer>
-
-        <hr>
-
-        <div class="container">
-            <div class="row fixed-bottom container-buttons">
-                <ul class="buttons nav">
-                    <li class="buttons-section-r col-4"><a
-                            class="button-link active-button institutional">Institucional</a></li>
-                    <li class="buttons-section-r col-4"><a class="button-link  services">Servicios a la ciudadanía</a>
-                    </li>
-                    <li class="buttons-section-r col-4"><a class="button-link cedae"
-                            href="https://cedae.ainteractivo.com/">CEDAE (Datos para la democracia)</a></li>
-                </ul>
-            </div>
-        </div><span id="dynamic-code-compat"></span><span id="ve542tfaxq_icefaces_config"></span>
-        <form action="/ProyectoSCCRC/faces/Certificados/consultarRegistroCivil.xhtml" id="ve542tfaxq" method="post"
-            name="ve542tfaxq">
-            <input name="ve542tfaxq" type="hidden" value="ve542tfaxq">
-
-            <input name="javax.faces.ViewState" value="4844511177694713339:-993363837930266543" type="hidden">
-        </form><span id="ve542tfaxq_icefaces_compat_config"></span>
+        </div>
+    </footer>
 </body>
-
 </html>
