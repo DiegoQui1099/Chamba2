@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo-mainlogo.ico') }}">
 </head>
 <body>
     <div class="container">
@@ -85,8 +86,9 @@
             <label for="fecha_nacimiento">Fecha de Nacimiento (dd/mm/aaaa):</label>
             <input type="text" name="fecha_nacimiento" id="fecha_nacimiento">
         </div>
-
+        <div class="g-recaptcha" data-sitekey="{{ sitekey }}"></div> <br/> 
         <button type="submit">Consultar</button>
+        <a href="https://www.registraduria.gov.co/" class="volver-button">Volver</a>
     </form>
     <footer id="footer">
         <div class="container">
@@ -190,7 +192,7 @@
             </div>
             <div class="row bar-footer">
                 <div class="col-6">
-                    <p class="white">Última actualización 11:39 am julio 5 de 2022</p>
+                    <p class="white">Última actualización 11:39 am julio 24 de 2024</p>
                 </div>
                 <div class="col-6">
                     <p class="white">
@@ -200,6 +202,20 @@
                             Google Chrome 
                         </a>
                     </p>
+                </div>
+            </div>
+                <div class="row fixed-bottom container-buttons">
+                    <ul class="buttons nav">
+                        <li class="buttons-section-r col-4">
+                            <a class="button-link active-button institutional">Institucional</a>
+                        </li>
+                        <li class="buttons-section-r col-4">
+                            <a class="button-link  services">Servicios a la ciudadan &#237;a</a>
+                        </li>
+                        <li class="buttons-section-r col-4">
+                            <a class="button-link cedae" href="https://cedae.ainteractivo.com/">CEDAE (Datos para la democracia)</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

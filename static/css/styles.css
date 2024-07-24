@@ -73,12 +73,27 @@ button[type="submit"] {
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
+    border-radius: 45px;
 }
 
 button[type="submit"]:hover {
     background-color: #0d5497;
 }
+.volver-button {
+    background-color: #002D55;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 45px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    text-decoration: none;
+}
 
+.volver-button:hover {
+    background-color: #0d5497;
+}
 /* Estilos para campos deshabilitados */
 .deshabilitado {
     opacity: 0.7; /* Reduce la opacidad de los campos deshabilitados */
@@ -92,13 +107,16 @@ button[type="submit"]:hover {
 
  /* Estilos generales para el footer */
  footer {
-    color: #fff; /* Color del texto */
-    font-family: Arial, sans-serif; /* Tipo de fuente */
+    color: #fff;
+    font-family: Arial, sans-serif;
     width: 100%;
-    background: radial-gradient(circle at 1% 1%, rgba(0, 245, 227, 0.5), transparent 10%), radial-gradient(circle at 99% 99%, rgba(0, 245, 227, 0.5), transparent 10%), radial-gradient(circle at 50% 50%, #002D55, #002D55 100%);
-    padding: 50px 0; /* Padding superior e inferior */
-    text-align: center; /* Alinear contenido al centro */
+    background: radial-gradient(circle at 1% 1%, rgba(0, 245, 227, 0.5), transparent 10%), 
+                radial-gradient(circle at 99% 99%, rgba(0, 245, 227, 0.5), transparent 10%), 
+                radial-gradient(circle at 50% 50%, #002D55, #002D55 100%);
+    padding: 50px 0;
+    text-align: center;
 }
+
 
 #footer .container {
     max-width: 1200px; /* Ancho máximo del contenido */
@@ -110,13 +128,13 @@ button[type="submit"]:hover {
 #footer .row {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 #footer .col-lg-4, #footer .col-md-6, #footer .col-sm-12 {
-    width: 20%;
-    height: 436px;
-    margin: 10px auto;
+    width: 26%;
+    height: 379px;
+    margin: 6px auto;
     padding: 5px 11px;
 }
 
@@ -153,7 +171,6 @@ button[type="submit"]:hover {
 .bar-footer a {
     color: #fff; /* Color del texto */
     text-decoration: none; /* Sin subrayado */
-    display: block; /* Convertir en bloque */
     margin-bottom: 8px; /* Espacio entre enlaces */
 }
 
@@ -165,6 +182,10 @@ button[type="submit"]:hover {
 /* Estilos para el texto de actualización y recomendación */
 .bar-footer .col-6 {
     text-align: right;
+    color: inherit;
+    text-decoration: none;
+    font-size: 14px;
+    width: 413px;
 }
 .bar-footer {
     margin-bottom: 60px;
@@ -183,6 +204,64 @@ button[type="submit"]:hover {
     width: 22px; /* Ancho del icono */
     height: auto; /* Altura automática para mantener la proporción */
     margin-right: 8px; /* Espacio derecho entre íconos */
+}
+
+/*Parte de abajo*/
+
+.container-buttons {
+    margin: 0;
+    padding: 0;
+    background-color: #002D55;
+}
+.fixed-bottom {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1030;
+}
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1* var(--bs-gutter-y));
+    margin-right: calc(-0.5* var(--bs-gutter-x));
+    margin-left: calc(-0.5* var(--bs-gutter-x));
+}
+.buttons-section-r {
+    display: flex;
+    justify-content: center;
+    height: auto;
+    float: left;
+}
+@media only screen and (min-width: 40.063em) and (max-width: 64em) {
+    .button-link {
+        display: block;
+        float: left;
+        width: 100%;
+        height: 75px;
+        background-repeat: no-repeat;
+        background-size: inherit;
+        background-position: 50% 33%;
+        background-color: rgb(0, 45, 85);
+        color: rgb(77, 108, 136);
+        font-size: 14px;
+        text-align: center;
+        padding-top: 45px;
+    }
+}
+.col-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+}
+
+a:not([href]):not([tabindex]) {
+    color: inherit;
+    text-decoration: none;
+    font-size: 14px;
+    width: 413px; /* Ajusta el valor según el largo deseado */
+    /* También puedes usar max-width o min-width según tus necesidades */
 }
 
 /*Estilos para la navbar*/
@@ -232,3 +311,626 @@ h1 {
     color: #002D55;
     margin-left: 14px;
 }
+ 
+
+/*estilos resiclados*/
+
+.disclamer{
+    float: left;
+}
+.menu-footer{
+    display: block;
+    float: left;
+}
+.logo-container{
+    display: block;
+    float: left;
+    width: 100%;
+    height: 100px;
+    margin: 30px 0px;
+    padding-left: 50px;
+}
+.logo-container img{
+    display: block;
+    float: left;
+    width: 150px;
+    height: auto;
+}
+.info-img{
+    width: 30px;
+    height: 30px;
+}
+.log-rncefooter{
+    height: 100% !important;
+    width: auto !important;
+}
+.socialnet-container{
+    display: block;
+    float: left;
+    width: 100%;
+    height: auto;
+}
+.socialnet{
+    display: block;
+    float: left;
+    width: 25px;
+    height: 25px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: contain;
+    margin-right: 20px;
+    margin-bottom: 40px;
+}
+.facebook{
+    background-image: url("../images/ico-footer-facebook.svg");
+}
+.twitter{
+    background-image: url("../images/ico-footer-twitter.svg");
+}
+.youtube{
+    background-image: url("../images/ico-footer-youtube.svg");
+}
+.instagram{
+    background-image: url("../images/ico-footer-instagram.svg");
+}
+.linkedin{
+    background-image: url("../images/ico-footer-linkedin.svg");
+}
+.tiktok{
+    background-image: url("../images/ico-footer-tiktok.png");
+}
+.buttons-section-r{
+    display: flex;
+    justify-content: center;
+    height: auto;
+    float: left;
+}
+.content-footer{
+    display: flex;
+    width: 100%;
+    height: auto;
+    padding-top: 20px;
+
+}
+.content-sections{
+    padding: 0px 20px 0px 0px;
+}
+
+/******FOOTBUTTONS****/
+.bar-footer{
+    margin-bottom: 60px;
+    width: 100%;
+    background-color:  #021C34;
+    text-align: center;
+
+}
+.container-buttons {
+    margin: -27px;
+    padding: 0px;
+    background-color: #002D55;
+}
+.buttons-section{
+    vertical-align: middle;
+}
+.buttons{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.button-link{
+    display: block;
+    float: left;
+    width: 100%;
+    height: 65px;
+    background-repeat: no-repeat;
+    background-size: inherit;
+    background-position: 25% 50%;
+    background-color: #002D55;
+    color: #4D6C88;
+    /* color: #ffffff; */
+    font-size: 14px;
+    text-align: center;
+    padding-top: 25px;
+}
+.institutional{
+    background-image: url("../images/institucinal.png");
+}
+.services {
+    background-image: url("../images/servicios.png");
+}
+.cedae{
+    background-image: url("../images/CEDAE.png");
+    background-position: 20% 50% !important;
+}
+.active-button{
+    background-color: #00F5E8 !important;
+    color: #002D55;
+
+}
+
+.active-button:hover{
+    color: #002D55;
+}
+
+/*****RESPONSIVE STYLES*****/
+/* Small screens */ /* max-width 640px, mobile-only styles, use when QAing mobile issues */
+@media only screen and (max-width: 40em) {
+
+    .deskheader {
+        display: none;
+    }
+
+    .mobheader {
+        display: block;
+        z-index: 99;
+        width: 100%;
+        height: 70px;
+        background: linear-gradient(90.77deg, rgba(255, 255, 255, 0.72) 9.57%, rgba(255, 255, 255, 0.45) 95.45%);
+        backdrop-filter: blur(4px);
+        border-radius: 40px;
+        margin: 20px 0px 10px 0px;
+        padding: 5px;
+    }
+    .logoregistraduria{
+        background-position: 10px 5px;
+    }
+    .mobsearchbox{
+        display: flex;
+        justify-content: center;
+    }
+    .btn-quick{
+        width: 50%;
+    }
+    .mainbtn{
+        width: 100%;
+    }
+    .logoregistraduria {
+        width: 60%;
+        background-size: contain;
+
+    }
+
+    #carousel-home {
+        margin-top: 20px;
+    }
+
+    .baseslide {
+        padding-top: 50px;
+    }
+
+    .title-services {
+        margin-top: 20px;
+    }
+
+    .title-service {
+        padding: 0px 20px;
+    }
+
+    .title-whois {
+        padding-top: 30px;
+    }
+
+    .textwhois {
+        padding: 0px 30px;
+    }
+
+    .seemorenew {
+        top: -20px;
+    }
+
+    .select {
+        width: 100%;
+    }
+
+    .btn-data {
+        background-position: 20px 27px;
+        background-size: 8%;
+        padding: 10px 30px 10px 110px;
+        min-height: auto;
+        font-size: 14px;
+    }
+
+    .breaddesk {
+        display: none;
+    }
+
+    .breamobile {
+        display: block;
+    }
+
+    .text-intro-subhome {
+        display: none;
+    }
+
+    .text-mobile {
+        display: block;
+        color: #000000;
+    }
+
+    #text-intro-mobile {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 20px;
+        padding-top: 20px;
+        display: none;
+    }
+
+    .containerbann-intern {
+        margin-top: 0;
+        padding: 0px 20px;
+    }
+
+    .imagebannintern-subhome {
+        height: 220px;
+        padding-top: 100px;
+    }
+
+    .title-section-subhome {
+        font-size: 20px;
+    }
+
+    .btnsearch {
+        margin-top: 20px;
+    }
+
+    .table-list-files {
+        display: block;
+    }
+
+    /*****RESPONSIVE TABLE******/
+    #main-table {
+        border: 0;
+    }
+
+    #main-table caption {
+        font-size: 1.3em;
+    }
+
+    #main-table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    #main-table tr {
+        border-bottom: 3px solid #ddd;
+        display: block;
+        margin-bottom: .625em;
+    }
+
+    #main-table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+
+    #main-table td::before {
+        /*
+        * aria-label has no advantage, it won't be read inside a table
+        content: attr(aria-label);
+        */
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        width: 100%;
+        height: 20px;
+        text-align: left;
+    }
+
+    #main-table td:last-child {
+        border-bottom: 0;
+        min-height: 130px;
+    }
+
+    .btn-action {
+        margin-top: 0px !important;
+    }
+
+    .blocks {
+        display: none;
+    }
+
+    .button-link {
+        background-position: 50% 20%;
+        background-size: 20%;
+        padding-top: 40px;
+        line-height: 1em;
+        height: 75px;
+    }
+
+    .imageart {
+        width: auto;
+        height: 100%;
+        border-radius: 30px;
+    }
+
+    .list-actions {
+        display: flex;
+        flex-direction: column;
+    }
+    div.dataTables_wrapper div.dataTables_paginate ul.pagination{
+        justify-content: end !important;
+    }
+
+    /*****404Error*****/
+    .text-error-404 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 50px 0 0 0;
+        padding: 0;
+    }
+
+    .title-404 {
+        font-size: 100px;
+        font-weight: 700;
+    }
+
+    .notice-404 {
+        font-size: 26px;
+        font-weight: 700;
+    }
+
+    .text-404 {
+        font-size: 20px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    .flex-section {
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+    }
+
+    .row-services-banner {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .services-banner {
+        width: 100%;
+        height: auto;
+        background: radial-gradient(142.58% 134.02% at -11.79% 9.62%, rgba(0, 245, 232, 0.2) 0%, rgba(255, 255, 255, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(247, 247, 247, 0.6);
+        backdrop-filter: blur(7px);
+        border-radius: 30px;
+        padding: 0px 20px;
+        margin: 10px 10px
+    }
+    .services-banner-tr{
+        width: 100%;
+        height: auto;
+        background: radial-gradient(142.58% 134.02% at -11.79% 9.62%, rgba(0, 245, 232, 0.2) 0%, rgba(255, 255, 255, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(247, 247, 247, 0.6);
+        backdrop-filter: blur(7px);
+        border-radius: 30px;
+        padding: 0px 20px;
+        margin: 0px 10px 0px 0px;
+    }
+    .services-banner-tr{
+        width: 100%;
+        height: auto;
+        background: radial-gradient(142.58% 134.02% at -11.79% 9.62%, rgba(0, 245, 232, 0.2) 0%, rgba(255, 255, 255, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(247, 247, 247, 0.6);
+        backdrop-filter: blur(7px);
+        border-radius: 30px;
+        padding: 0px 20px;
+        margin: 0px 10px 0px 0px;
+    }
+    .civil-register{
+        margin-left: 0;
+    }
+    .elect-banner{
+        margin: 20px 0px;
+        min-height: auto;
+    }
+    .content-footer{
+        flex-direction: column;
+    }
+    .btn-data-container{
+        min-width: 100%;
+    }
+    #mydocument {
+        display: block;
+        float: left;
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        margin: 30px 0px;
+        padding: 0px 20px;
+    }
+    .cedae{
+        background-image: url("../images/CEDAE.png");
+        background-position: 50% 20% !important;
+    }
+    .searchico{
+        background-image: none;
+    }
+}
+
+
+/* REPISADO CSS SPIP */
+
+/*******Medium screens****/
+@media only screen and (min-width: 40.063em) and (max-width: 74.9375em) {
+    .btn-data {
+        background-position: 20px 27px;
+        height: 100px;
+        padding: 10px 30px 10px 110px;
+        min-height: auto;
+
+    }
+    #mydocument {
+        display: block;
+        float: left;
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        margin: 30px 0px;
+        padding: 0px 20px;
+    }
+
+    .cedae {
+
+        background-position: 50% 33% !important;
+    }
+    .searchico{
+        background-image: none;
+    }
+    .button-link{
+        display: block;
+        float: left;
+        width: 100%;
+        height: 75px;
+        background-repeat: no-repeat;
+        background-size: inherit;
+        background-position: 50% 33%;
+        background-color: rgb(0, 45, 85);
+        color: rgb(77, 108, 136);
+        font-size: 14px;
+        text-align: center;
+        padding-top: 45px;
+    }
+} /* min-width 641px, medium screens */ /**** DISABLE BREAKPOINT***/
+
+@media only screen and (min-width: 40.063em) and (max-width: 64em) {
+    /* min-width 641px and max-width 1024px, use when QAing tablet-only issues */
+    .logoregistraduria {
+        height: 60px;
+        padding: 10px 0px;
+        background-size: contain;
+        background-position: 10px 0px
+    }
+
+    .mainbtn {
+        width: 60%;
+    }
+
+    .mobsearchbox {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn-quick {
+        width: 50%;
+    }
+
+    .consultarbtn {
+        width: 100% !important;
+    }
+
+    .deskheader {
+        display: none;
+    }
+
+    .searchico {
+        background-image: none;
+    }
+
+    .mobheader {
+        display: block;
+        z-index: 99;
+        width: 100%;
+        height: 70px;
+        background: linear-gradient(90.77deg, rgba(255, 255, 255, 0.72) 9.57%, rgba(255, 255, 255, 0.45) 95.45%);
+        backdrop-filter: blur(4px);
+        border-radius: 40px;
+        margin: 20px 0px 10px 0px;
+        padding: 5px;
+    }
+
+    .btnsearch {
+        margin-top: 20px;
+    }
+
+    .button-link {
+        display: block;
+        float: left;
+        width: 100%;
+        height: 75px;
+        background-repeat: no-repeat;
+        background-size: inherit;
+        background-position: 50% 33%;
+        background-color: rgb(0, 45, 85);
+        color: rgb(77, 108, 136);
+        font-size: 14px;
+        text-align: center;
+        padding-top: 45px;
+    }
+
+    .btn-data {
+        background-position: 20px 27px;
+        background-size: 8%;
+        height: 100px;
+        padding: 20px 0px 20px 90px;
+        min-height: auto;
+
+    }
+
+    .list-actions {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row-services-banner {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .services-banner {
+        width: 100%;
+        height: auto;
+        background: radial-gradient(142.58% 134.02% at -11.79% 9.62%, rgba(0, 245, 232, 0.2) 0%, rgba(255, 255, 255, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(247, 247, 247, 0.6);
+        backdrop-filter: blur(7px);
+        border-radius: 30px;
+        padding: 0px 20px;
+        margin: 10px 10px
+    }
+
+    .services-banner-tr {
+        width: 100%;
+        height: auto;
+        background: radial-gradient(142.58% 134.02% at -11.79% 9.62%, rgba(0, 245, 232, 0.2) 0%, rgba(255, 255, 255, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(247, 247, 247, 0.6);
+        backdrop-filter: blur(7px);
+        border-radius: 30px;
+        padding: 0px 20px;
+        margin: 0px 10px 0px 0px;
+    }
+
+    .civil-register {
+        margin-left: 0;
+    }
+
+    .elect-banner {
+        margin: 20px 0px;
+        min-height: auto;
+    }
+
+    .content-footer {
+        flex-direction: column;
+    }
+}
+/*******Large screens****/
+@media only screen and (min-width: 64.063em) { } /* min-width 1025px, large screens */
+
+@media only screen and (min-width: 64.063em) and (max-width: 90em) { } /* min-width 1025px and max-width 1440px, use when QAing large screen-only issues */
+
+/*******XLarge screens****/
+@media only screen and (min-width: 90.063em) { } /* min-width 1441px, xlarge screens */
+
+@media only screen and (min-width: 90.063em) and (max-width: 120em) { } /* min-width 1441px and max-width 1920px, use when QAing xlarge screen-only issues */
+
+/*******XXLarge screens****/
+@media only screen and (min-width: 120.063em) { } /* min-width 1921px, xxlarge screens */
+
+/*****DESIGNED BY B1G DIGITAL 2022*****/
