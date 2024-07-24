@@ -27,12 +27,12 @@ h3 {
 
 /* Estilo para el formulario */
 form {
-    max-width: 600px; /* Ancho máximo del formulario */
-    margin: 37px auto; /* Centrar el formulario horizontalmente */
-    padding: 20px; /* Espacio interno alrededor del formulario */
-    background-color: #f9f9f9; /* Color de fondo para el formulario */
-    border: 1px solid #ccc; /* Borde del formulario */
-    border-radius: 5px; /* Borde redondeado */
+    max-width: 600px;
+    margin: 24px auto;
+    padding: 20px;
+    background-color: #00228d05;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 45px;
 }
 
 /* Estilo para los bloques de formulario */
@@ -58,14 +58,14 @@ form {
     flex: 1; /* El input/select ocupa todo el espacio restante */
     padding: 8px; /* Espaciado interno */
     font-size: 16px; /* Tamaño de fuente */
-    border: 1px solid #ccc; /* Borde del input/select */
+    border: 1px solid #0d549742; /* Borde del input/select */
     border-radius: 4px; /* Borde redondeado */
     box-sizing: border-box; /* Incluir el padding en el ancho total */
 }
 
 /* Estilo para el botón de submit */
 button[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #002D55;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -76,7 +76,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #0d5497;
 }
 
 /* Estilos para campos deshabilitados */
