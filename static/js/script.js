@@ -71,6 +71,48 @@ $(document).ready(function() {
         }
     });
 
+     // Validar campos antes de permitir la consulta
+     $('#boton_consultar').on('click', function(event) {
+        var tipoBusqueda = $('#tipo_busqueda').val();
+        var camposCompletos = true;
+
+        if (tipoBusqueda === 'apellidos_nombres') {
+            camposCompletos = $('#primer_apellido').val() !== '' &&
+                              $('#primer_nombre').val() !== '';
+        } else if (tipoBusqueda === 'numero_identificacion') {
+            camposCompletos = $('#numero_identificacion').val() !== '';
+        } else if (tipoBusqueda === 'serial') {
+            camposCompletos = $('#serial_registro_civil').val() !== '';
+        } else if (tipoBusqueda === 'todos_criterios') {
+            camposCompletos = $('#primer_apellido').val() !== '' &&
+                              $('#primer_nombre').val() !== '' &&
+                              $('#numero_identificacion').val() !== '' &&
+                              $('#fecha_nacimiento').val() !== '';
+        }
+
+        if (!camposCompletos) {
+            alert('Por favor, complete todos los campos antes de consultar.');
+            event.preventDefault(); // Evitar enviar el formulario
+        }
+    });
+// Validaciones específicas para los campos
+$('#numero_identificacion').on('input', function() {
+    // Permitir solo números y limitar longitud de 1 a 12 caracteres
+    var sanitized = $(this).val().replace(/[^0-9]/g, '').substring(0, 12);
+    $(this).val(sanitized);
+});
+
+$('#serial_registro_civil').on('input', function() {
+    // Validación para el campo serial, permitir solo letras y números
+    var sanitized = $(this).val().replace(/[^a-zA-Z0-9]/g, '').substring(0, 12);
+    $(this).val(sanitized);
+});
+
+$('#primer_apellido, #segundo_apellido, #primer_nombre, #segundo_nombre').on('input', function() {
+    // Permitir solo letras y convertir a mayúsculas
+    var sanitized = $(this).val().replace(/[^a-zA-ZñÑ]/g, '').toUpperCase();
+    $(this).val(sanitized);
+});
     // Al cargar la página, simular el cambio para aplicar la lógica inicialmente
     $('#tipo_busqueda').change();
 });

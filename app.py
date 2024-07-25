@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, json
 from flask_mysqldb import MySQL
 from config import Config
 import datetime
+import requests
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -58,10 +59,22 @@ def validar_formulario(tipo_busqueda, form_data):
 
     return True
 
+# Funcion del recatcha
+def is_human(captcha_response):
+        """ Validating recaptcha response from google server
+        Returns True captcha test passed for submitted form else returns False.
+        """
+        secret = "6Ldk5BYqAAAAAH_7BM6y17MEUWFZ0cYCINUvSkoV"
+        payload = {'response':captcha_response, 'secret':secret}
+        response = requests.post("https://www.google.com/recaptcha/api/siteverify", payload)
+        response_text = json.loads(response.text)
+        return response_text['success']
 
 # Ruta para la página inicial y la inserción de datos
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    sitekey = "6Ldk5BYqAAAAAJ7qtuqrrDk5nIRQi_7EZdc2buk7"
+
     if request.method == 'POST':
         tipo_registro_civil = request.form.get('tipo_registro_civil', '')
         tipo_busqueda = request.form.get('tipo_busqueda', '')
@@ -165,7 +178,7 @@ def index():
             return render_template('error.html', message="No se encontraron registros en la base de datos.")
 
     # Renderizar el formulario inicial si es GET o no hay resultados
-    return render_template('index.html')
+    return render_template('index.html', sitekey=sitekey)
 
 @app.route('/consulta')
 def consulta():
