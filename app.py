@@ -16,7 +16,6 @@ def validar_fecha(fecha_str):
     except ValueError:
         return False
 
-# Función para validar el formulario según el tipo de búsqueda
 def validar_formulario(tipo_busqueda, form_data):
     if tipo_busqueda == 'apellidos_nombres':
         primer_apellido = form_data.get('primer_apellido', '').strip()
@@ -51,14 +50,14 @@ def validar_formulario(tipo_busqueda, form_data):
         sexo = form_data.get('sexo', '').strip()
         fecha_nacimiento = form_data.get('fecha_nacimiento', '').strip()
 
-        if not numero_identificacion and not primer_apellido and not segundo_apellido \
-                and not primer_nombre and not segundo_nombre and not sexo and not fecha_nacimiento:
+        if not numero_identificacion or not primer_apellido or not segundo_apellido or not primer_nombre or not segundo_nombre or not sexo or not fecha_nacimiento:
             return False
 
-        if fecha_nacimiento and not validar_fecha(fecha_nacimiento):
+        if not validar_fecha(fecha_nacimiento):
             return False
 
     return True
+
 
 # Ruta para la página inicial y la inserción de datos
 @app.route('/', methods=['GET', 'POST'])

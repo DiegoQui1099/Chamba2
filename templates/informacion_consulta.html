@@ -5,45 +5,241 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de Registros Civiles</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesConsulta.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/Colombia.png') }}" class="favicon">
 </head>
 <body>
-    <h1>Resultados de la consulta</h1>
+    <div class="container">
+        <div class="navbar deskheader">
+            <div class="container-fluid">
+                <a class="navbar-brand logoregistraduria" target="_blank" href="https://www.registraduria.gov.co/"></a>
+                <h1 class="ml-3 mb-0">Consulta De Registros Civiles</h1>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="text-center">SISTEMA DE CONSULTAS Y CERTIFICADOS DE REGISTROS CIVILES</h3>
 
     {% if resultados %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Tipo de Registro Civil</th>
-                    <th>Serial del Registro Civil</th>
-                    <th>Número de Identificación</th>
-                    <th>Primer Apellido</th>
-                    <th>Segundo Apellido</th>
-                    <th>Primer Nombre</th>
-                    <th>Segundo Nombre</th>
-                    <th>Sexo</th>
-                    <th>Fecha de Nacimiento</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for resultado in resultados %}
-                    <tr>
-                        <td>{{ resultado[0] }}</td>  {# Tipo de Registro Civil #}
-                        <td>{{ resultado[1] }}</td>  {# Serial del Registro Civil #}
-                        <td>{{ resultado[2] }}</td>  {# Número de Identificación #}
-                        <td>{{ resultado[3] }}</td>  {# Primer Apellido #}
-                        <td>{{ resultado[4] }}</td>  {# Segundo Apellido #}
-                        <td>{{ resultado[5] }}</td>  {# Primer Nombre #}
-                        <td>{{ resultado[6] }}</td>  {# Segundo Nombre #}
-                        <td>{{ resultado[7] }}</td>  {# Sexo #}
-                        <td>{{ resultado[8] }}</td>  {# Fecha de Nacimiento #}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-container">
+            <h1 class="ml-3 mb-0">Información Basica</h1>
+            {% for resultado in resultados %}
+                <div class="vertical-table">
+                    <table class="result-table">
+                        <tr>
+                            <td class="label">Tipo de Registro Civil:</td>
+                            <td>Registro Civil De Nacimiento</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Serial del Registro Civil:</td>
+                            <td>{{ resultado[1] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Número de Identificación:</td>
+                            <td>{{ resultado[2] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Primer Apellido:</td>
+                            <td>{{ resultado[3] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Segundo Apellido:</td>
+                            <td>{{ resultado[4] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Primer Nombre:</td>
+                            <td>{{ resultado[5] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Segundo Nombre:</td>
+                            <td>{{ resultado[6] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Sexo:</td>
+                            <td>{{ resultado[7] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Fecha de Nacimiento:</td>
+                            <td>{{ resultado[8] }}</td>
+                        </tr>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
     {% else %}
         <p>No se encontraron resultados.</p>
     {% endif %}
 
-    <p><a href="/">Volver al formulario</a></p>
+    <!-- segundo formulario -->
+
+    {% if resultados %}
+        <div class="table-container">
+            <h1 class="ml-3 mb-0">Información Del Registro Civil</h1>
+            {% for resultado in resultados %}
+                <div class="vertical-table">
+                    <table class="result-table">
+                        <tr>
+                            <td class="label">Serial del Registro Civil:</td>
+                            <td>{{ resultado[1] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Número de Identificación:</td>
+                            <td>{{ resultado[2] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Fecha De Inscripción (dd-mm-aaaa):</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Oficina De Registro:</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Tipo De Registro Civil:</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No se encontraron resultados.</p>
+    {% endif %}
+
+    <center><p><a href="/" class="button">Volver al formulario</a></p></center>
+    <center><p><a href="" class="button">Generar Certificado</a></p></center>
 </body>
+
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <div class="logo-container">
+                    <img class="log-rncefooter" src="{{ url_for('static', filename='img/mainlogo-white.svg') }}" style="max-width: 150px; height: auto;" alt="Logo">
+                </div>
+                <div class="socialnet-container">
+                    <a class="socialnet" href="https://www.facebook.com/RegistraduriaNacional/">
+                        <img src="{{ url_for('static', filename='img/ico-footer-facebook.svg') }}" alt="Facebook">
+                    </a>
+                    <a class="socialnet twitter" href="https://twitter.com/Registraduria">
+                        <img src="{{ url_for('static', filename='img/ico-footer-twitter.svg') }}" alt="Twitter">
+                    </a>
+                    <a class="socialnet youtube" href="https://www.youtube.com/user/RegistraduriaNal#">
+                        <img src="{{ url_for('static', filename='img/ico-footer-youtube.svg') }}" alt="Youtube">
+                    </a>
+                    <a class="socialnet instagram" href="https://www.instagram.com/registraduria/">
+                        <img src="{{ url_for('static', filename='img/ico-footer-instagram.svg') }}" alt="Instagram">
+                    </a>
+                    <a class="socialnet linkedin" href="https://www.linkedin.com/company/registradur%C3%ADa-nacional-del-estado-civil/">
+                        <img src="{{ url_for('static', filename='img/ico-footer-linkedin.svg') }}" alt="Linkedin">
+                    </a>
+                    <a class="socialnet tiktok" href="https://www.tiktok.com/@registraduria/">
+                        <img src="{{ url_for('static', filename='img/ico-footer-tiktok.png') }}" alt="TikTok">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="menu-footer">
+                    <p class="white">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Av. Calle 26 n.º 51-50, CAN, Bogotá, Colombia. CP: 111321 
+                    </p>
+                    <p class="white">
+                        <i class="fa-solid fa-envelope"></i>
+                        Horario de atención correspondencia de lunes a viernes de 8:00 a. m. a 4:30 p. m. en jornada continua (Sede CAN av. calle 26 nº 51-50)
+                    </p>
+                    <p class="white">
+                        <i class="fa-solid fa-phone"></i>
+                        Conmutador: +57 (601) 220 2880
+                    </p>
+                    <p class="white">
+                        <i class="fa-solid fa-clock"></i>
+                        Centro de Atención e Información Ciudadana (CAIC): Carrera 7.ª n.º 16-49, edificio Córdoba.<br>Horario: 8:00 a. m. a 4:00 p. m., en jornada continua 
+                    </p>
+                    <p class="white">
+                        <i class="fa-solid fa-copyright"></i>
+                        Copyright 2022 - Todos los derechos reservados Registraduría Nacional del Estado Civil. 
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="content-footer">
+                    <div class="content-sections">
+                        <a href="/Politicas-de-privacidad-y-condiciones-de-uso.html?var_mode=calcul" target="_blank">
+                            <p class="white">Políticas de privacidad</p>
+                        </a>
+                        <a href="https://correo.registraduria.gov.co/owa/auth/logon.aspx?replaceCurrent=1" target="_blank">
+                            <p class="white">Correo institucional</p>
+                        </a>
+                        <a href="https://www.office.com/" target="_blank">
+                            <p class="white">Correo institucional (Office 365)</p>
+                        </a>
+                        <a href="/Politicas-de-privacidad-y-condiciones-de-uso.html?var_mode=calcul" target="_blank">
+                            <p class="white">Condiciones de uso</p>
+                        </a>
+                    </div>
+                    <div class="content-sections">
+                        <a target="_blank">
+                            <p class="white">Mapa del sitio</p>
+                        </a>
+                        <a href="https://wsp.registraduria.gov.co/contactenos/" target="_blank">
+                            <p class="white">Contáctenos</p>
+                        </a>
+                        <a href="https://biblioteca.registraduria.gov.co/pmb/opac_css/index.php" target="_blank">
+                            <p class="white">Biblioteca </p>
+                        </a>
+                        <a href="https://intranet.registraduria.gov.co/" target="_blank">
+                            <p class="white">Intranet</p>
+                        </a>
+                    </div>
+                    <div class="content-sections">
+                        <a href="https://wsp.registraduria.gov.co/normatividad/" target="_blank">
+                            <p class="white">Normativa</p>
+                        </a>
+                        <a href="/-Procedimientos-150-.html?var_mode=calcul" target="_blank">
+                            <p class="white">Correos judiciales</p>
+                        </a>
+                        <a href="https://wsp.registraduria.gov.co/contacto/" target="_blank">
+                            <p class="white">PQRSDC</p>
+                        </a>
+                        <a href="/Glosario.html?var_mode=calcul" target="_blank">
+                            <p class="white">Glosario</p>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row bar-footer">
+            <div class="col-6">
+                <p class="white">Última actualización 11:39 am julio 5 de 2022</p>
+            </div>
+            <div class="col-6">
+                <p class="white">
+                    Recomendado uso de <i class="fa-brands fa-chrome"></i>
+                    <a class="white" href="https://www.google.com/chrome/browser/desktop/index.html">
+                        <i class="icon-chrome"></i>
+                        Google Chrome 
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="row fixed-bottom container-buttons">
+            <ul class="buttons nav">
+                <li class="buttons-section-r col-4">
+                    <a class="button-link active-button institutional">Institucional</a>
+                </li>
+                <li class="buttons-section-r col-4">
+                    <a class="button-link  services">Servicios a la ciudadan &#237;a</a>
+                </li>
+                <li class="buttons-section-r col-4">
+                    <a class="button-link cedae" href="https://cedae.ainteractivo.com/">CEDAE (Datos para la democracia)</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    </div>
+</footer>
+
 </html>

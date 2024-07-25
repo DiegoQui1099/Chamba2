@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Registros Civiles</title>
+    <title>Consulta y Certificados Web</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo-mainlogo.ico') }}">
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/colombia.png') }}" class="favicon">
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+
 </head>
+
 <body>
+    
     <div class="container">
         <div class="navbar deskheader">
             <div class="container-fluid">
@@ -76,9 +81,11 @@
         <div class="bloque-formulario">
             <label for="sexo">Sexo:</label>
             <select name="sexo" id="sexo">
+                <option value="select"></option>
                 <option value="masculino">Masculino</option>
                 <option value="femenino">Femenino</option>
                 <option value="otro">Sin información</option>
+                <option value="otro">Helicoptero de combate apache 6500B</option>
             </select>
         </div>
 
@@ -86,139 +93,144 @@
             <label for="fecha_nacimiento">Fecha de Nacimiento (dd/mm/aaaa):</label>
             <input type="text" name="fecha_nacimiento" id="fecha_nacimiento">
         </div>
+        <br>
         <div class="g-recaptcha" data-sitekey="{{ sitekey }}"></div> <br/> 
-        <button type="submit">Consultar</button>
-        <a href="https://www.registraduria.gov.co/" class="volver-button">Volver</a>
+        <br>
+        <center><button type="submit">Consultar</button></center>
+        <center><a href="https://www.registraduria.gov.co/" class="button">Volver</a></center>
     </form>
-    <footer id="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-12 col-sm-12">
-                    <div class="logo-container">
-                        <img class="log-rncefooter" src="{{ url_for('static', filename='img/mainlogo-white.svg') }}" style="max-width: 150px; height: auto;" alt="Logo">
-                    </div>
-                    <div class="socialnet-container">
-                        <a class="socialnet" href="https://www.facebook.com/RegistraduriaNacional/">
-                            <img src="{{ url_for('static', filename='img/ico-footer-facebook.svg') }}" alt="Facebook">
-                        </a>
-                        <a class="socialnet twitter" href="https://twitter.com/Registraduria">
-                            <img src="{{ url_for('static', filename='img/ico-footer-twitter.svg') }}" alt="Twitter">
-                        </a>
-                        <a class="socialnet youtube" href="https://www.youtube.com/user/RegistraduriaNal#">
-                            <img src="{{ url_for('static', filename='img/ico-footer-youtube.svg') }}" alt="Youtube">
-                        </a>
-                        <a class="socialnet instagram" href="https://www.instagram.com/registraduria/">
-                            <img src="{{ url_for('static', filename='img/ico-footer-instagram.svg') }}" alt="Instagram">
-                        </a>
-                        <a class="socialnet linkedin" href="https://www.linkedin.com/company/registradur%C3%ADa-nacional-del-estado-civil/">
-                            <img src="{{ url_for('static', filename='img/ico-footer-linkedin.svg') }}" alt="Linkedin">
-                        </a>
-                        <a class="socialnet tiktok" href="https://www.tiktok.com/@registraduria/">
-                            <img src="{{ url_for('static', filename='img/ico-footer-tiktok.png') }}" alt="TikTok">
-                        </a>
-                    </div>
+
+</body>
+
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <div class="logo-container">
+                    <img class="log-rncefooter" src="{{ url_for('static', filename='img/mainlogo-white.svg') }}" style="max-width: 150px; height: auto;" alt="Logo">
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="menu-footer">
-                        <p class="white">
-                            <i class="fa-solid fa-location-dot"></i>
-                            Av. Calle 26 n.º 51-50, CAN, Bogotá, Colombia. CP: 111321 
-                        </p>
-                        <p class="white">
-                            <i class="fa-solid fa-envelope"></i>
-                            Horario de atención correspondencia de lunes a viernes de 8:00 a. m. a 4:30 p. m. en jornada continua (Sede CAN av. calle 26 nº 51-50)
-                        </p>
-                        <p class="white">
-                            <i class="fa-solid fa-phone"></i>
-                            Conmutador: +57 (601) 220 2880
-                        </p>
-                        <p class="white">
-                            <i class="fa-solid fa-clock"></i>
-                            Centro de Atención e Información Ciudadana (CAIC): Carrera 7.ª n.º 16-49, edificio Córdoba.<br>Horario: 8:00 a. m. a 4:00 p. m., en jornada continua 
-                        </p>
-                        <p class="white">
-                            <i class="fa-solid fa-copyright"></i>
-                            Copyright 2022 - Todos los derechos reservados Registraduría Nacional del Estado Civil. 
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="content-footer">
-                        <div class="content-sections">
-                            <a href="/Politicas-de-privacidad-y-condiciones-de-uso.html?var_mode=calcul" target="_blank">
-                                <p class="white">Políticas de privacidad</p>
-                            </a>
-                            <a href="https://correo.registraduria.gov.co/owa/auth/logon.aspx?replaceCurrent=1" target="_blank">
-                                <p class="white">Correo institucional</p>
-                            </a>
-                            <a href="https://www.office.com/" target="_blank">
-                                <p class="white">Correo institucional (Office 365)</p>
-                            </a>
-                            <a href="/Politicas-de-privacidad-y-condiciones-de-uso.html?var_mode=calcul" target="_blank">
-                                <p class="white">Condiciones de uso</p>
-                            </a>
-                        </div>
-                        <div class="content-sections">
-                            <a target="_blank">
-                                <p class="white">Mapa del sitio</p>
-                            </a>
-                            <a href="https://wsp.registraduria.gov.co/contactenos/" target="_blank">
-                                <p class="white">Contáctenos</p>
-                            </a>
-                            <a href="https://biblioteca.registraduria.gov.co/pmb/opac_css/index.php" target="_blank">
-                                <p class="white">Biblioteca </p>
-                            </a>
-                            <a href="https://intranet.registraduria.gov.co/" target="_blank">
-                                <p class="white">Intranet</p>
-                            </a>
-                        </div>
-                        <div class="content-sections">
-                            <a href="https://wsp.registraduria.gov.co/normatividad/" target="_blank">
-                                <p class="white">Normativa</p>
-                            </a>
-                            <a href="/-Procedimientos-150-.html?var_mode=calcul" target="_blank">
-                                <p class="white">Correos judiciales</p>
-                            </a>
-                            <a href="https://wsp.registraduria.gov.co/contacto/" target="_blank">
-                                <p class="white">PQRSDC</p>
-                            </a>
-                            <a href="/Glosario.html?var_mode=calcul" target="_blank">
-                                <p class="white">Glosario</p>
-                            </a>
-                        </div>
-                    </div>
-                    
+                <div class="socialnet-container">
+                    <a class="socialnet" href="https://www.facebook.com/RegistraduriaNacional/">
+                        <img src="{{ url_for('static', filename='img/ico-footer-facebook.svg') }}" alt="Facebook">
+                    </a>
+                    <a class="socialnet twitter" href="https://twitter.com/Registraduria">
+                        <img src="{{ url_for('static', filename='img/ico-footer-twitter.svg') }}" alt="Twitter">
+                    </a>
+                    <a class="socialnet youtube" href="https://www.youtube.com/user/RegistraduriaNal#">
+                        <img src="{{ url_for('static', filename='img/ico-footer-youtube.svg') }}" alt="Youtube">
+                    </a>
+                    <a class="socialnet instagram" href="https://www.instagram.com/registraduria/">
+                        <img src="{{ url_for('static', filename='img/ico-footer-instagram.svg') }}" alt="Instagram">
+                    </a>
+                    <a class="socialnet linkedin" href="https://www.linkedin.com/company/registradur%C3%ADa-nacional-del-estado-civil/">
+                        <img src="{{ url_for('static', filename='img/ico-footer-linkedin.svg') }}" alt="Linkedin">
+                    </a>
+                    <a class="socialnet tiktok" href="https://www.tiktok.com/@registraduria/">
+                        <img src="{{ url_for('static', filename='img/ico-footer-tiktok.png') }}" alt="TikTok">
+                    </a>
                 </div>
             </div>
-            <div class="row bar-footer">
-                <div class="col-6">
-                    <p class="white">Última actualización 11:39 am julio 24 de 2024</p>
-                </div>
-                <div class="col-6">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="menu-footer">
                     <p class="white">
-                        Recomendado uso de <i class="fa-brands fa-chrome"></i>
-                        <a class="white" href="https://www.google.com/chrome/browser/desktop/index.html">
-                            <i class="icon-chrome"></i>
-                            Google Chrome 
-                        </a>
+                        <i class="fa-solid fa-location-dot"></i>
+                        Av. Calle 26 n.º 51-50, CAN, Bogotá, Colombia. CP: 111321 
+                    </p>
+                    <p class="white">
+                        <i class="fa-solid fa-envelope"></i>
+                        Horario de atención correspondencia de lunes a viernes de 8:00 a. m. a 4:30 p. m. en jornada continua (Sede CAN av. calle 26 nº 51-50)
+                    </p>
+                    <p class="white">
+                        <i class="fa-solid fa-phone"></i>
+                        Conmutador: +57 (601) 220 2880
+                    </p>
+                    <p class="white">
+                        <i class="fa-solid fa-clock"></i>
+                        Centro de Atención e Información Ciudadana (CAIC): Carrera 7.ª n.º 16-49, edificio Córdoba.<br>Horario: 8:00 a. m. a 4:00 p. m., en jornada continua 
+                    </p>
+                    <p class="white">
+                        <i class="fa-solid fa-copyright"></i>
+                        Copyright 2022 - Todos los derechos reservados Registraduría Nacional del Estado Civil. 
                     </p>
                 </div>
             </div>
-                <div class="row fixed-bottom container-buttons">
-                    <ul class="buttons nav">
-                        <li class="buttons-section-r col-4">
-                            <a class="button-link active-button institutional">Institucional</a>
-                        </li>
-                        <li class="buttons-section-r col-4">
-                            <a class="button-link  services">Servicios a la ciudadan &#237;a</a>
-                        </li>
-                        <li class="buttons-section-r col-4">
-                            <a class="button-link cedae" href="https://cedae.ainteractivo.com/">CEDAE (Datos para la democracia)</a>
-                        </li>
-                    </ul>
+            <div class="col-lg-4">
+                <div class="content-footer">
+                    <div class="content-sections">
+                        <a href="/Politicas-de-privacidad-y-condiciones-de-uso.html?var_mode=calcul" target="_blank">
+                            <p class="white">Políticas de privacidad</p>
+                        </a>
+                        <a href="https://correo.registraduria.gov.co/owa/auth/logon.aspx?replaceCurrent=1" target="_blank">
+                            <p class="white">Correo institucional</p>
+                        </a>
+                        <a href="https://www.office.com/" target="_blank">
+                            <p class="white">Correo institucional (Office 365)</p>
+                        </a>
+                        <a href="/Politicas-de-privacidad-y-condiciones-de-uso.html?var_mode=calcul" target="_blank">
+                            <p class="white">Condiciones de uso</p>
+                        </a>
+                    </div>
+                    <div class="content-sections">
+                        <a target="_blank">
+                            <p class="white">Mapa del sitio</p>
+                        </a>
+                        <a href="https://wsp.registraduria.gov.co/contactenos/" target="_blank">
+                            <p class="white">Contáctenos</p>
+                        </a>
+                        <a href="https://biblioteca.registraduria.gov.co/pmb/opac_css/index.php" target="_blank">
+                            <p class="white">Biblioteca </p>
+                        </a>
+                        <a href="https://intranet.registraduria.gov.co/" target="_blank">
+                            <p class="white">Intranet</p>
+                        </a>
+                    </div>
+                    <div class="content-sections">
+                        <a href="https://wsp.registraduria.gov.co/normatividad/" target="_blank">
+                            <p class="white">Normativa</p>
+                        </a>
+                        <a href="/-Procedimientos-150-.html?var_mode=calcul" target="_blank">
+                            <p class="white">Correos judiciales</p>
+                        </a>
+                        <a href="https://wsp.registraduria.gov.co/contacto/" target="_blank">
+                            <p class="white">PQRSDC</p>
+                        </a>
+                        <a href="/Glosario.html?var_mode=calcul" target="_blank">
+                            <p class="white">Glosario</p>
+                        </a>
+                    </div>
                 </div>
+                
             </div>
         </div>
-    </footer>
-</body>
+        <div class="row bar-footer">
+            <div class="col-6">
+                <p class="white">Última actualización 11:39 am julio 5 de 2022</p>
+            </div>
+            <div class="col-6">
+                <p class="white">
+                    Recomendado uso de <i class="fa-brands fa-chrome"></i>
+                    <a class="white" href="https://www.google.com/chrome/browser/desktop/index.html">
+                        <i class="icon-chrome"></i>
+                        Google Chrome 
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="link-container row fixed-bottom container-buttons">
+            <ul class="buttons nav">
+                <li class="buttons-section-r col-4">
+                    <a class="button-link active-button institutional">Institucional</a>
+                </li>
+                <li class="buttons-section-r col-4">
+                    <a class="button-link services">Servicios a la ciudadanía</a>
+                </li>
+                <li class="buttons-section-r col-4">
+                    <a class="button-link cedae" href="https://cedae.ainteractivo.com/">CEDAE (Datos para la democracia)</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+</footer>
+
 </html>
