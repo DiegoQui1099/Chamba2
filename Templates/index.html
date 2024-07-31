@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Normatividad - RNEC</title>
+    <link type="text/css" rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="js/dialog_admin.js?1"></script>
+    <link href="rnec/css/design-system.css" rel="stylesheet" crossorigin="anonymous">
+    <link type='image/x-icon' rel='shortcut icon' href="{{ url_for('static', filename='img/favicon.ico') }}" />
+    <link type='text/css' rel='stylesheet' href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link type='text/css' rel='stylesheet' href="rnec/style.min.css" />
+    <link type='text/css' rel='stylesheet' href="rnec/css/dark.css" />
+    <link type='text/css' rel='stylesheet' href="rnec/css/font-icons.css" />
+    <link type='text/css' rel='stylesheet' href="rnec/css/magnific-popup.css" />
+    <link type='text/css' rel='stylesheet' href="rnec/css/responsive.css" />
+    <script type='text/javascript' src='rnec/js/jquery.js'></script>
+    <script type='text/javascript' src='rnec/js/plugins.js'></script>
+    <link type="text/css" rel="stylesheet" href="js/jquery.DataTables/jquery.dataTables.min.css"/>
+    <script type="text/javascript" src="js/jquery.DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        document.oncontextmenu = function(){return false;}
+        $(function() {
+            // Tabla con la consulta
+            $("#consulta").DataTable({
+                "dom": 'T<"clear">lfrtip',
+                responsive: true,
+                autoWidth: false,
+                "language": {
+                    url: 'js/jquery.DataTables/language/Spanish.json'
+                }
+            });
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        #contenedor3 {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #05463F;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .seleccion {
+            margin-bottom: 20px;
+        }
+
+        .contenedor {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .contenedor td {
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        .contenedor select, .contenedor input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .submit input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .submit input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .services_module2 {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        /* Media Query para hacer el formulario responsivo */
+        @media (max-width: 768px) {
+            .contenedor td {
+                display: block;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .submit input[type="submit"] {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'header.html' %}
+
+    <div id="contenedor3">
+        
+        <div class="services_module2">
+            <div id="contenido">
+                <h2>NORMATIVIDAD</h2>
+                <div class="intro">
+                    A continuación podrá consultar la normatividad sobre los procesos electorales y de identificación que adelanta la Registraduría Nacional del Estado Civil.<br><br>Por favor seleccione los parámetros de búsqueda:
+                </div>
+                <div class="seleccion">
+                    <form action="#resul" method="post">
+                        <table border="0" class="contenedor" style="margin:auto">
+                            <tr>
+                                <td width="30%" style="font-size:13px;color:#05463F;font-weight: bold">Macroproceso</td>
+                                <td width="50%" rowspan="2">
+                                    <!-- Lista desplegable Macroproceso -->
+                                    <select name="mp" class="lightinput pqrsform" id="mp">
+                                        <option value="all">Todos los documentos</option>
+                                        <option value="IDE">Identificación</option>
+                                        <option value="ELE">Electoral</option>
+                                        <option value="GAF">Gestión Administrativa y Financiera</option>
+                                        <option value="GTH">Gestión del Talento Humano</option>
+                                        <option value="GTI">Gestión Tecnológica de la Información</option>
+                                        <option value="COM">Comunicación Pública</option>
+                                        <option value="GCI">Gestión del Sistema de Control Interno</option>
+                                        <option value="GJU">Gestión Jurídica</option>
+                                        <option value="GCD">Gestión y Control Disciplinario</option>
+                                        <option value="PDE">Planeación y Direccionamiento Estratégico</option>
+                                    </select>
+                                </td>
+                                <td width="20%">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="texto_small">(Tema relacionado)</td>
+                                <td width="20%">&nbsp;</td>
+                            </tr>
+                            <tr><td colspan="3"></td></tr>
+                            <tr style="padding-top:10px">
+                                <td style="font-size:13px;color:#05463F;font-weight: bold">Proceso</td>
+                                <td id="sel_proceso" rowspan="2">
+                                    <!-- Lista desplegable Proceso -->
+                                    <select name="p" class="lightinput pqrsform" id="p">
+                                        <option value="all">Todos</option>
+                                    </select>
+                                </td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td width="30%" class="texto_small">(Clasificación por Tema)</td>
+                                <td width="20%">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td valign="top">Tipo de Norma</td>
+                                <td>
+                                    <!-- Lista desplegable Tipo de Norma -->
+                                    <select name="tipo_norma" class="lightinput pqrsform" id="mp">
+                                        <option value="all">Todos</option>
+                                        <option value="ACT">Acto Legislativo</option>
+                                        <option value="ACU">Acuerdo</option>
+                                        <option value="CCIR">Carta Circular</option>
+                                        <option value="CIR">Circular</option>
+                                        <option value="CIRC">Circular Conjunta</option>
+                                        <option value="CIRE">Circular Externa</option>
+                                        <option value="COP">Constitución</option>
+                                        <option value="DEC">Decreto</option>
+                                        <option value="DIR">Directiva</option>
+                                        <option value="DOC">Doctrina</option>
+                                        <option value="INS">Instructivo</option>
+                                        <option value="JUR">Jurisprudencia</option>
+                                        <option value="LEY">Ley</option>
+                                        <option value="MAN">Manual</option>
+                                        <option value="NOR">Norma</option>
+                                        <option value="REG">Reglamento</option>
+                                    </select>
+                                </td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>No. de Documento</td>
+                                <td><input type="text" size="5" name="numero" maxlength="5" value=""/></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Año</td>
+                                <td>
+                                    <!-- Lista desplegable Año -->
+                                    <select name="anio">
+                                        <option value="all">Todos</option>
+                                        <!-- Opciones adicionales aquí -->
+                                    </select>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Descripción</td>
+                                <td><input type="text" size="60" name="descripcion" maxlength="60" value=""/></td>
+                                <td><input type="hidden" name="tk" value=""></td>
+                            </tr>
+                        </table>
+                        <div class="submit">
+                            <input type="submit" value="Consultar" name="submit">
+                        </div>
+                    </form>
+                </div>
+                <div></div>
+                <a name='resul'></a>
+                <div style="margin-top: 50px">
+                    <!-- Resultados de la consulta -->
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>
