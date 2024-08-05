@@ -1068,7 +1068,7 @@ a.btn-action-cyanblue:hover{
     width: 280px;
     height: 67px;
     background-repeat: no-repeat;
-    background-image: url("../images/logo-mainlogo.svg");
+    background-image: url("../img/logo-mainlogo.svg");
     background-size: contain;
 }
 .searchbox{

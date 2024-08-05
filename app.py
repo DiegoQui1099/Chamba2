@@ -11,11 +11,32 @@ mysql = MySQL(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM macroprocesos")
+    macroprocesos = cursor.fetchall()
+    cursor.close()
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT id_mp, descripcion FROM procesos")
+    procesos = cursor.fetchall()
+    cursor.close()
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT id, descripcion FROM tipo_documento")
+    documento = cursor.fetchall()
+    cursor.close()
+
+    return render_template('index.html', macroprocesos=macroprocesos, procesos=procesos, documento=documento)
 
 @app.route('/footer')
 def footer():
     return render_template('footer.html')
 
+@app.route('/header')
+def header():
+    return render_template('header.html')
+
 if __name__ == '__main__':
     app.run(debug=app.config['DEBUG'], port=app.config['PORT'])
+    
+    

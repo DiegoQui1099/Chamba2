@@ -320,8 +320,10 @@ tr,
 td,
 th {
   border-color: inherit;
-  border-style: solid;
-  border-width: 0;
+    border-style: solid;
+    border-width: 0px;
+    font-size: small;
+    font-family: sans-serif;
 }
 
 label {

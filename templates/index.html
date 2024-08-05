@@ -35,16 +35,106 @@
             });
         });
     </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        #contenedor3 {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #05463F;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .seleccion {
+            margin-bottom: 20px;
+        }
+
+        .contenedor {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .contenedor td {
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        .contenedor select, .contenedor input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .submit input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .submit input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .services_module2 {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        /* Media Query para hacer el formulario responsivo */
+        @media (max-width: 768px) {
+            .contenedor td {
+                display: block;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .submit input[type="submit"] {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
+
 <body>
+    {% include 'header.html' %}
+
     <div id="contenedor3">
-        <!-- Header -->
+        
         <div class="services_module2">
             <div id="contenido">
-                <h2>NORMATIVIDAD</h2>
+                <center><h2>NORMATIVIDAD</h2></center>
+                <br>
                 <div class="intro">
                     A continuación podrá consultar la normatividad sobre los procesos electorales y de identificación que adelanta la Registraduría Nacional del Estado Civil.<br><br>Por favor seleccione los parámetros de búsqueda:
                 </div>
+                <br>
                 <div class="seleccion">
                     <form action="#resul" method="post">
                         <table border="0" class="contenedor" style="margin:auto">
@@ -52,9 +142,11 @@
                                 <td width="30%" style="font-size:13px;color:#05463F;font-weight: bold">Macroproceso</td>
                                 <td width="50%" rowspan="2">
                                     <!-- Lista desplegable Macroproceso -->
-                                    <select name="mp">
-                                        <option value="all">Todos</option>
-                                        <!-- Opciones adicionales aquí -->
+                                    <select name="mp" class="lightinput pqrsform" id="mp">
+                                        <option value="all">Seleccione Macroproceso</option>
+                                        {% for macroproceso in macroprocesos %}
+                                            <option value="{{ macroproceso[0] }}">{{ macroproceso[1] }}</option>
+                                        {% endfor %}
                                     </select>
                                 </td>
                                 <td width="20%">&nbsp;</td>
@@ -68,9 +160,11 @@
                                 <td style="font-size:13px;color:#05463F;font-weight: bold">Proceso</td>
                                 <td id="sel_proceso" rowspan="2">
                                     <!-- Lista desplegable Proceso -->
-                                    <select name="proceso">
+                                    <select name="p" class="lightinput pqrsform" id="p">
                                         <option value="all">Todos</option>
-                                        <!-- Opciones adicionales aquí -->
+                                        {% for proceso in procesos %}
+                                        <option value="{{ proceso[0] }}">{{ proceso[1] }}</option>
+                                    {% endfor %}                                    
                                     </select>
                                 </td>
                                 <td>&nbsp;</td>
@@ -88,24 +182,26 @@
                                 <td valign="top">Tipo de Norma</td>
                                 <td>
                                     <!-- Lista desplegable Tipo de Norma -->
-                                    <select name="tipo_norma">
+                                    <select name="tipo_norma" class="lightinput pqrsform" id="mp">
                                         <option value="all">Todos</option>
-                                        <!-- Opciones adicionales aquí -->
+                                        {% for documento in documento %}
+                                        <option value="{{ documento[0] }}">{{ documento[1] }}</option>
+                                    {% endfor %}                                    
                                     </select>
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
                                 <td>No. de Documento</td>
-                                <td><input type="text" size="5" name="numero" maxlength="5" value=""/></td>
+                                <td><input type="text" size="5" name="numero" maxlength="5" value="" class="lightinput pqrsform"/></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Año</td>
                                 <td>
                                     <!-- Lista desplegable Año -->
-                                    <select name="anio">
-                                        <option value="all">Todos</option>
+                                    <select name="anio" class="lightinput pqrsform">
+                                        <option value="all" >Todos</option>
                                         <!-- Opciones adicionales aquí -->
                                     </select>
                                 </td>
@@ -113,13 +209,16 @@
                             </tr>
                             <tr>
                                 <td>Descripción</td>
-                                <td><input type="text" size="60" name="descripcion" maxlength="60" value=""/></td>
+                                <td><input type="text" size="60" name="descripcion" maxlength="60" value="" class="lightinput pqrsform" /></td>
                                 <td><input type="hidden" name="tk" value=""></td>
                             </tr>
                         </table>
+                        <br><br>
+                        <center>
                         <div class="submit">
                             <input type="submit" value="Consultar" name="submit">
                         </div>
+                        </center>
                     </form>
                 </div>
                 <div></div>
