@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
@@ -7,6 +8,8 @@
     <title>Normatividad - RNEC</title>
     <link type="text/css" rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="js/dialog_admin.js?1"></script>
     <link href="rnec/css/design-system.css" rel="stylesheet" crossorigin="anonymous">
     <link type='image/x-icon' rel='shortcut icon' href="{{ url_for('static', filename='img/favicon.ico') }}" />
     <link type='text/css' rel='stylesheet' href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
@@ -17,23 +20,91 @@
     <link type='text/css' rel='stylesheet' href="rnec/css/responsive.css" />
     <script type='text/javascript' src='rnec/js/jquery.js'></script>
     <script type='text/javascript' src='rnec/js/plugins.js'></script>
-    <link type="text/css" rel="stylesheet" href="js/jquery.DataTables/jquery.dataTables.min.css"/>
+    <link type="text/css" rel="stylesheet" href="js/jquery.DataTables/jquery.dataTables.min.css" />
     <script type="text/javascript" src="js/jquery.DataTables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/form.js') }}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#consulta').DataTable({
-                "dom": 'lfrtip', // La configuración básica de DataTables
+                "dom": 'lfrtip',
                 "language": {
                     "url": 'js/jquery.DataTables/language/Spanish.json'
-                },
-                "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "Todo"] ], // Opciones para mostrar por página
-                "pageLength": 10 // Número inicial de filas por página
+                }
             });
         });
     </script>
     <style>
-        /* Estilos generales para la tabla */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: #05463F;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Estilos para el formulario */
+        #contenedor-formulario {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label {
+            flex: 1;
+            margin-right: -232px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: justify;
+        }
+
+        .form-group select,
+        .form-group input[type="text"] {
+            flex: 2;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 21px;
+            font-size: 16px;
+        }
+
+        .submit input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+
+        .submit input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para la tabla de resultados */
+        #contenedor-resultados {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
         .contenedor-table {
             width: 100%;
             border-collapse: collapse;
@@ -76,170 +147,86 @@
             background-color: #0056b3;
         }
 
-        /* Estilos para la paginación y controles de búsqueda */
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            padding: 5px 10px;
-            margin: 0 2px;
+        .contenedor-table {
             border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #fff;
-            color: #007bff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background-color: #f2f2f2;
-        }
-
-        .dataTables_wrapper .dataTables_length select {
-            padding: 5px;
-            margin: 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .dataTables_wrapper .dataTables_filter input {
-            padding: 5px;
-            margin: 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        /* Estilos para el formulario de consulta */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        #contenedor3 {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #05463F;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .intro {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .seleccion {
-            margin-bottom: 20px;
-        }
-
-        .contenedor {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .contenedor td {
-            padding: 10px;
-            vertical-align: top;
-        }
-
-        .contenedor select,
-        .contenedor input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .submit input[type="submit"] {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .submit input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        .services_module2 {
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-
-        /* Media Query para hacer el formulario responsivo */
         @media (max-width: 768px) {
-            .contenedor td {
-                display: block;
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-group label {
+                margin-bottom: 5px;
+                text-align: left;
+            }
+
+            .form-group select,
+            .form-group input[type="text"] {
                 width: 100%;
-                margin-bottom: 10px;
             }
 
             .submit input[type="submit"] {
                 width: 100%;
             }
         }
+        .intro {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
 <body>
     {% include 'header.html' %}
-            <center><h2>NORMATIVIDAD</h2></center>
-            <br>
-            
-    <div id="contenedor3">
-        <div class="intro">
-            A continuación podrá consultar la normatividad sobre los procesos electorales y de identificación que adelanta la Registraduría Nacional del Estado Civil.<br><br>Por favor seleccione los parámetros de búsqueda:
-        </div>
-        <br>
+    
+    <div id="contenedor-formulario">
+        <h2>Consulta de Normatividad</h2>
         <form action="/" method="post" class="mb-4">
+            <div class="intro">
+                A continuación podrá consultar la normatividad sobre los procesos electorales y de identificación que adelanta la Registraduría Nacional del Estado Civil.<br><br>Por favor seleccione los parámetros de búsqueda:
+            </div>
+            <br><br>
             <div class="form-group">
                 <label for="mp">Macroproceso:</label>
-                <select name="mp" class="lightinput pqrsform" id="mp">
-                    {% for macroproceso in macroprocesos %}
-                        <option value="{{ macroproceso[0] }}">{{ macroproceso[1] }}</option>
+                <select name="mp" id="mp">
+                    {% for macroproceso in macroprocesos | reverse %}
+                    <option value="{{ macroproceso[0] }}">{{ macroproceso[1] }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group">
                 <label for="p">Proceso:</label>
-                <select name="p" class="lightinput pqrsform" id="p">
+                <select name="p" id="p">
                     <option value="all">Todos</option>
                     {% for proceso in procesos %}
                     <option value="{{ proceso[0] }}">{{ proceso[1] }}</option>
-                    {% endfor %}                                    
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group">
                 <label for="tipo_norma">Tipo de Norma:</label>
-                <select name="tipo_norma" class="lightinput pqrsform" id="tipo_norma">
+                <select name="tipo_norma" id="tipo_norma">
                     <option value="all">Todos</option>
                     {% for documento in documento %}
                     <option value="{{ documento[0] }}">{{ documento[1] }}</option>
-                    {% endfor %}                                    
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group">
                 <label for="numero">Número:</label>
-                <input type="text" name="numero" id="numero" class="lightinput pqrsform">
+                <input type="text" name="numero" id="numero">
             </div>
             <div class="form-group">
                 <label for="anio">Año:</label>
-                <input type="text" name="anio" id="anio" class="lightinput pqrsform">
+                <input type="text" name="anio" id="anio">
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
-                <input type="text" name="descripcion" id="descripcion" class="lightinput pqrsform">
+                <input type="text" name="descripcion" id="descripcion">
             </div>
             <center>
                 <div class="submit">
@@ -248,10 +235,10 @@
             </center>
         </form>
     </div>
-
     {% if resultados %}
+    <div id="contenedor-resultados">
         <p>Se encontraron {{ resultados|length }} coincidencias</p>
-        <table class="contenedor-table" id="consulta">
+        <table class="contenedor-table">
             <thead>
                 <tr>
                     <th>DOCUMENTO</th>
@@ -267,24 +254,27 @@
             </thead>
             <tbody>
                 {% for resultado in resultados %}
-                    <tr>
-                        <td>{{ resultado[0] }}</td>
-                        <td>{{ resultado[1] }}</td>
-                        <td>{{ resultado[2] }}</td>
-                        <td>{{ resultado[3] }}</td>
-                        <td>{{ resultado[4] }}</td>
-                        <td>{{ resultado[5] }}</td>
-                        <td>{{ resultado[6] }}</td>
-                        <td>{{ resultado[7] }}</td>
-                        <td><a href="#" class="btn btn-info">Descargar</a></td>
-                    </tr>
+                <tr>
+                    <td>{{ resultado[0] }}</td>
+                    <td>{{ resultado[1] }}</td>
+                    <td>{{ resultado[2] }}</td>
+                    <td>{{ resultado[3] }}</td>
+                    <td>{{ resultado[4] }}</td>
+                    <td>{{ resultado[5] }}</td>
+                    <td>{{ resultado[6] }}</td>
+                    <td>{{ resultado[7] }}</td>
+                    <td><a href="#" class="btn btn-info">Descargar</a></td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
+    </div>
     {% else %}
+    <div id="contenedor-resultados">
         <p>No se encontraron resultados.</p>
+    </div>
     {% endif %}
-
     {% include 'footer.html' %}
 </body>
+
 </html>

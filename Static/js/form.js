@@ -57,3 +57,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+/*para la consulta*/ 
+$(document).ready(function() {
+    $('#consulta').DataTable({
+        "dom": 'lfrtip',
+        "language": {
+            "url": 'js/jquery.DataTables/language/Spanish.json'
+        },
+        "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "Todo"] ],
+        "pageLength": 10
+    });
+});
