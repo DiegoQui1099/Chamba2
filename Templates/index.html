@@ -7,8 +7,6 @@
     <title>Normatividad - RNEC</title>
     <link type="text/css" rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <script type="text/javascript" src="js/login.js"></script>
-    <script type="text/javascript" src="js/dialog_admin.js?1"></script>
     <link href="rnec/css/design-system.css" rel="stylesheet" crossorigin="anonymous">
     <link type='image/x-icon' rel='shortcut icon' href="{{ url_for('static', filename='img/favicon.ico') }}" />
     <link type='text/css' rel='stylesheet' href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
@@ -21,21 +19,92 @@
     <script type='text/javascript' src='rnec/js/plugins.js'></script>
     <link type="text/css" rel="stylesheet" href="js/jquery.DataTables/jquery.dataTables.min.css"/>
     <script type="text/javascript" src="js/jquery.DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/form.js') }}"></script>
     <script>
-        document.oncontextmenu = function(){return false;}
-        $(function() {
-            // Tabla con la consulta
-            $("#consulta").DataTable({
-                "dom": 'T<"clear">lfrtip',
-                responsive: true,
-                autoWidth: false,
+        $(document).ready(function() {
+            $('#consulta').DataTable({
+                "dom": 'lfrtip', // La configuración básica de DataTables
                 "language": {
-                    url: 'js/jquery.DataTables/language/Spanish.json'
-                }
+                    "url": 'js/jquery.DataTables/language/Spanish.json'
+                },
+                "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "Todo"] ], // Opciones para mostrar por página
+                "pageLength": 10 // Número inicial de filas por página
             });
         });
     </script>
     <style>
+        /* Estilos generales para la tabla */
+        .contenedor-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .contenedor-table thead {
+            background-color: #f2f2f2;
+        }
+
+        .contenedor-table th {
+            padding: 10px;
+            border: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        .contenedor-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .contenedor-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .contenedor-table a.btn {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .contenedor-table a.btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para la paginación y controles de búsqueda */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 5px 10px;
+            margin: 0 2px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #007bff;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #f2f2f2;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            padding: 5px;
+            margin: 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            padding: 5px;
+            margin: 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        /* Estilos para el formulario de consulta */
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -78,7 +147,8 @@
             vertical-align: top;
         }
 
-        .contenedor select, .contenedor input[type="text"] {
+        .contenedor select,
+        .contenedor input[type="text"] {
             width: 100%;
             padding: 8px;
             border: 1px solid #ccc;
@@ -124,123 +194,97 @@
 
 <body>
     {% include 'header.html' %}
-
+            <center><h2>NORMATIVIDAD</h2></center>
+            <br>
+            
     <div id="contenedor3">
-        
-        <div class="services_module2">
-            <div id="contenido">
-                <h2>NORMATIVIDAD</h2>
-                <div class="intro">
-                    A continuación podrá consultar la normatividad sobre los procesos electorales y de identificación que adelanta la Registraduría Nacional del Estado Civil.<br><br>Por favor seleccione los parámetros de búsqueda:
-                </div>
-                <div class="seleccion">
-                    <form action="#resul" method="post">
-                        <table border="0" class="contenedor" style="margin:auto">
-                            <tr>
-                                <td width="30%" style="font-size:13px;color:#05463F;font-weight: bold">Macroproceso</td>
-                                <td width="50%" rowspan="2">
-                                    <!-- Lista desplegable Macroproceso -->
-                                    <select name="mp" class="lightinput pqrsform" id="mp">
-                                        <option value="all">Todos los documentos</option>
-                                        <option value="IDE">Identificación</option>
-                                        <option value="ELE">Electoral</option>
-                                        <option value="GAF">Gestión Administrativa y Financiera</option>
-                                        <option value="GTH">Gestión del Talento Humano</option>
-                                        <option value="GTI">Gestión Tecnológica de la Información</option>
-                                        <option value="COM">Comunicación Pública</option>
-                                        <option value="GCI">Gestión del Sistema de Control Interno</option>
-                                        <option value="GJU">Gestión Jurídica</option>
-                                        <option value="GCD">Gestión y Control Disciplinario</option>
-                                        <option value="PDE">Planeación y Direccionamiento Estratégico</option>
-                                    </select>
-                                </td>
-                                <td width="20%">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td width="30%" class="texto_small">(Tema relacionado)</td>
-                                <td width="20%">&nbsp;</td>
-                            </tr>
-                            <tr><td colspan="3"></td></tr>
-                            <tr style="padding-top:10px">
-                                <td style="font-size:13px;color:#05463F;font-weight: bold">Proceso</td>
-                                <td id="sel_proceso" rowspan="2">
-                                    <!-- Lista desplegable Proceso -->
-                                    <select name="p" class="lightinput pqrsform" id="p">
-                                        <option value="all">Todos</option>
-                                    </select>
-                                </td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td width="30%" class="texto_small">(Clasificación por Tema)</td>
-                                <td width="20%">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td valign="top">Tipo de Norma</td>
-                                <td>
-                                    <!-- Lista desplegable Tipo de Norma -->
-                                    <select name="tipo_norma" class="lightinput pqrsform" id="mp">
-                                        <option value="all">Todos</option>
-                                        <option value="ACT">Acto Legislativo</option>
-                                        <option value="ACU">Acuerdo</option>
-                                        <option value="CCIR">Carta Circular</option>
-                                        <option value="CIR">Circular</option>
-                                        <option value="CIRC">Circular Conjunta</option>
-                                        <option value="CIRE">Circular Externa</option>
-                                        <option value="COP">Constitución</option>
-                                        <option value="DEC">Decreto</option>
-                                        <option value="DIR">Directiva</option>
-                                        <option value="DOC">Doctrina</option>
-                                        <option value="INS">Instructivo</option>
-                                        <option value="JUR">Jurisprudencia</option>
-                                        <option value="LEY">Ley</option>
-                                        <option value="MAN">Manual</option>
-                                        <option value="NOR">Norma</option>
-                                        <option value="REG">Reglamento</option>
-                                    </select>
-                                </td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td>No. de Documento</td>
-                                <td><input type="text" size="5" name="numero" maxlength="5" value=""/></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Año</td>
-                                <td>
-                                    <!-- Lista desplegable Año -->
-                                    <select name="anio">
-                                        <option value="all">Todos</option>
-                                        <!-- Opciones adicionales aquí -->
-                                    </select>
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Descripción</td>
-                                <td><input type="text" size="60" name="descripcion" maxlength="60" value=""/></td>
-                                <td><input type="hidden" name="tk" value=""></td>
-                            </tr>
-                        </table>
-                        <div class="submit">
-                            <input type="submit" value="Consultar" name="submit">
-                        </div>
-                    </form>
-                </div>
-                <div></div>
-                <a name='resul'></a>
-                <div style="margin-top: 50px">
-                    <!-- Resultados de la consulta -->
-                </div>
-            </div>
+        <div class="intro">
+            A continuación podrá consultar la normatividad sobre los procesos electorales y de identificación que adelanta la Registraduría Nacional del Estado Civil.<br><br>Por favor seleccione los parámetros de búsqueda:
         </div>
+        <br>
+        <form action="/" method="post" class="mb-4">
+            <div class="form-group">
+                <label for="mp">Macroproceso:</label>
+                <select name="mp" class="lightinput pqrsform" id="mp">
+                    {% for macroproceso in macroprocesos %}
+                        <option value="{{ macroproceso[0] }}">{{ macroproceso[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="p">Proceso:</label>
+                <select name="p" class="lightinput pqrsform" id="p">
+                    <option value="all">Todos</option>
+                    {% for proceso in procesos %}
+                    <option value="{{ proceso[0] }}">{{ proceso[1] }}</option>
+                    {% endfor %}                                    
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tipo_norma">Tipo de Norma:</label>
+                <select name="tipo_norma" class="lightinput pqrsform" id="tipo_norma">
+                    <option value="all">Todos</option>
+                    {% for documento in documento %}
+                    <option value="{{ documento[0] }}">{{ documento[1] }}</option>
+                    {% endfor %}                                    
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="numero">Número:</label>
+                <input type="text" name="numero" id="numero" class="lightinput pqrsform">
+            </div>
+            <div class="form-group">
+                <label for="anio">Año:</label>
+                <input type="text" name="anio" id="anio" class="lightinput pqrsform">
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <input type="text" name="descripcion" id="descripcion" class="lightinput pqrsform">
+            </div>
+            <center>
+                <div class="submit">
+                    <input type="submit" value="Consultar" name="submit">
+                </div>
+            </center>
+        </form>
     </div>
+
+    {% if resultados %}
+        <p>Se encontraron {{ resultados|length }} coincidencias</p>
+        <table class="contenedor-table" id="consulta">
+            <thead>
+                <tr>
+                    <th>DOCUMENTO</th>
+                    <th>MACROPROCESO</th>
+                    <th>PROCESO</th>
+                    <th>TIPO DE DOCUMENTO</th>
+                    <th>Número</th>
+                    <th>Año</th>
+                    <th>Descripción</th>
+                    <th>Peso</th>
+                    <th>Descargar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resultado in resultados %}
+                    <tr>
+                        <td>{{ resultado[0] }}</td>
+                        <td>{{ resultado[1] }}</td>
+                        <td>{{ resultado[2] }}</td>
+                        <td>{{ resultado[3] }}</td>
+                        <td>{{ resultado[4] }}</td>
+                        <td>{{ resultado[5] }}</td>
+                        <td>{{ resultado[6] }}</td>
+                        <td>{{ resultado[7] }}</td>
+                        <td><a href="#" class="btn btn-info">Descargar</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No se encontraron resultados.</p>
+    {% endif %}
+
     {% include 'footer.html' %}
 </body>
 </html>
