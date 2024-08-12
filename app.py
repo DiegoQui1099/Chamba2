@@ -22,16 +22,14 @@ def index():
         anio = request.form.get('anio')
         descripcion = request.form.get('descripcion')
 
-        # Construir la consulta SQL
         query = """
         SELECT 
-            a.nombre AS documento,
+            t.descripcion AS documento,
             m.descripcion AS macroproceso,
             p.descripcion AS proceso,
-            t.descripcion AS tipo_documento,
             a.numero,
             a.anio,
-            a.descripcion,
+            a.descripcion AS descargas,
             a.peso
         FROM archivos a
         LEFT JOIN listado_documentos ld ON a.nombre = ld.nombre
@@ -39,14 +37,14 @@ def index():
         LEFT JOIN procesos p ON ld.id_p = p.id_p
         LEFT JOIN tipo_documento t ON a.id_tipo_documento = t.id
         WHERE (m.id_mp = %s OR %s = 'all')
-          AND (p.id_p = %s OR %s = 'all')
-          AND (a.id_tipo_documento = %s OR %s = 'all')
-          AND (a.numero = %s OR %s = '')
-          AND (a.anio = %s OR %s = '')
-          AND (a.descripcion LIKE %s OR %s = '')
+        AND (p.id_p = %s OR %s = 'all')
+        AND (a.id_tipo_documento = %s OR %s = 'all')
+        AND (a.numero = %s OR %s = '')
+        AND (a.anio = %s OR %s = '')
+        AND (a.descripcion LIKE %s OR %s = '')
         ORDER BY a.anio DESC;
         """
-        
+                
         params = [
             mp, mp,
             p, p,
