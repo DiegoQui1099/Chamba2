@@ -29,11 +29,50 @@
                 "dom": 'lfrtip',
                 "language": {
                     "url": 'js/jquery.DataTables/language/Spanish.json'
-                }
+                },
+                "pageLength": 10,  // Número inicial de resultados por página
+                "lengthMenu": [10, 25, 50, 100],  // Opciones de número de resultados por página
+                "paging": true,  // Habilita la paginación
+                "ordering": true,  // Habilita la ordenación de columnas
+                "info": true,  // Muestra la información sobre la tabla
+                "autoWidth": false,  // Desactiva el autoajuste de columnas
+                "searching": true  // Habilita la búsqueda
             });
         });
     </script>
     <style>
+        /* Estilos personalizados */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 8px 16px;
+            margin: 0 4px;
+            text-decoration: none;
+            color: #007bff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+
+        .pagination a.disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Estilos personalizados */
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -48,7 +87,6 @@
             text-align: center;
         }
 
-        /* Estilos para el formulario */
         #contenedor-formulario {
             width: 80%;
             margin: 20px auto;
@@ -95,7 +133,6 @@
             background-color: #0056b3;
         }
 
-        /* Estilos para la tabla de resultados */
         #contenedor-resultados {
             width: 80%;
             margin: 20px auto;
@@ -194,14 +231,12 @@
             </div>
             <br><br>
             <div class="form-group">
-                <label for="mp">Macroproceso:</label><br>             
+                <label for="mp">Macroproceso:</label><br>
                 <select name="mp" id="mp">
                     {% for macroproceso in macroprocesos | reverse %}
                     <option value="{{ macroproceso[0] }}">{{ macroproceso[1] }}</option>
                     {% endfor %}
                 </select>
-                
-
             </div>
             <div class="form-group">
                 <label for="p">Proceso:</label>
@@ -227,7 +262,12 @@
             </div>
             <div class="form-group">
                 <label for="anio">Año:</label>
-                <input type="text" name="anio" id="anio">
+                <select name="anio" id="anio">
+                    <option value="">Seleccione...</option>
+                    {% for anio_item in anio %}
+                    <option value="{{ anio_item[0] }}">{{ anio_item[0] }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
@@ -243,36 +283,48 @@
     {% if resultados %}
     <div id="contenedor-resultados">
         <p>Se encontraron {{ resultados|length }} coincidencias</p>
-        <table class="contenedor-table">
+        <table id="consulta" class="contenedor-table">
             <thead>
                 <tr>
                     <th>DOCUMENTO</th>
                     <th>MACROPROCESO</th>
                     <th>PROCESO</th>
-                    <th>Número</th>
                     <th>Año</th>
                     <th>Descripción</th>
-                    <th>Peso</th>
                     <th>Descargar</th>
                 </tr>
             </thead>
             <tbody>
                 {% for resultado in resultados %}
                 <tr>
-                    <td>{{ resultado[0] }}</td>
-                    <td>{{ resultado[1] }}</td>
-                    <td>{{ resultado[2] }}</td>
-                    <td>{{ resultado[3] }}</td>
-                    <td>{{ resultado[4] }}</td>
-                    <td>{{ resultado[5] }}</td>
-                    <td>{{ resultado[6] }}</td>
+                    <td>{{ resultado.documento }} <br> No. {{ resultado.numero }}</td>
+                    <td>{{ resultado.macroproceso }}</td>
+                    <td>{{ resultado.proceso }}</td>
+                    <td>{{ resultado.anio }}</td>
+                    <td>{{ resultado.descripcion }}</td>
                     <td>
-                        <img src="{{ url_for('static', filename='img/pdf_p.png') }}" alt="PDF">
+                        <a href="{{ url_for('download_file', filename=resultado.nombre) }}">
+                            {% if resultado.nombre.endswith('.pdf') %}
+                            <img src="{{ url_for('static', filename='img/pdf_p.png') }}" alt="PDF">
+                            {% elif resultado.nombre.endswith('.doc') or resultado.nombre.endswith('.docx') %}
+                            <img src="{{ url_for('static', filename='img/doc_d.png') }}" alt="DOC">
+                            {% endif %}
+                            {{ resultado.peso }}KB
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+        <div class="pagination">
+            {% if section > 1 %}
+            <a href="{{ url_for('index', section=section-1) }}">Anterior</a>
+            {% endif %}
+
+            {% if section < total_sections %} <a href="{{ url_for('index', section=section+1) }}">Siguiente</a>
+                {% endif %}
+        </div>
     </div>
     {% else %}
     <div id="contenedor-resultados">
