@@ -23,22 +23,15 @@
     <link type="text/css" rel="stylesheet" href="js/jquery.DataTables/jquery.dataTables.min.css" />
     <script type="text/javascript" src="js/jquery.DataTables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/form.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            $('#consulta').DataTable({
-                "dom": 'lfrtip',
-                "language": {
-                    "url": 'js/jquery.DataTables/language/Spanish.json'
-                },
-                "pageLength": 10,  // Número inicial de resultados por página
-                "lengthMenu": [10, 25, 50, 100],  // Opciones de número de resultados por página
-                "paging": true,  // Habilita la paginación
-                "ordering": true,  // Habilita la ordenación de columnas
-                "info": true,  // Muestra la información sobre la tabla
-                "autoWidth": false,  // Desactiva el autoajuste de columnas
-                "searching": true  // Habilita la búsqueda
-            });
-        });
+    
+    <!--para escoger cantidad de resultados-->
+    <script type="text/javascript">
+        function updatePerPage() {
+            const perPage = document.getElementById('per_page').value;
+            const url = new URL(window.location.href);
+            url.searchParams.set('per_page', perPage);
+            window.location.href = url.toString();
+        }
     </script>
     <style>
         /* Estilos personalizados */
@@ -282,8 +275,18 @@
     </div>
     {% if resultados %}
     <div id="contenedor-resultados">
-        <p>Se encontraron {{ resultados|length }} coincidencias</p>
+        
+        <p>Se encontraron {{ total_results }} coincidencias</p>
         <table id="consulta" class="contenedor-table">
+            <div class="form-group">
+                <label for="per_page">Resultados por página:</label>
+                <select name="per_page" id="per_page" onchange="updatePerPage()">
+                    <option value="10" {% if per_page == 10 %}selected{% endif %}>10</option>
+                    <option value="25" {% if per_page == 25 %}selected{% endif %}>25</option>
+                    <option value="50" {% if per_page == 50 %}selected{% endif %}>50</option>
+                    <option value="100" {% if per_page == 100 %}selected{% endif %}>100</option>
+                </select>
+            </div> 
             <thead>
                 <tr>
                     <th>DOCUMENTO</th>
@@ -318,12 +321,17 @@
         </table>
 
         <div class="pagination">
-            {% if section > 1 %}
-            <a href="{{ url_for('index', section=section-1) }}">Anterior</a>
+            {% if page > 1 %}
+            <a href="{{ url_for('index', page=page-1, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}">Anterior</a>
             {% endif %}
-
-            {% if section < total_sections %} <a href="{{ url_for('index', section=section+1) }}">Siguiente</a>
-                {% endif %}
+        
+            {% for p in range(1, total_pages + 1) %}
+            <a href="{{ url_for('index', page=p, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}" class="{% if p == page %}active{% endif %}">{{ p }}</a>
+            {% endfor %}
+        
+            {% if page < total_pages %} 
+            <a href="{{ url_for('index', page=page+1, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}">Siguiente</a>
+            {% endif %}
         </div>
     </div>
     {% else %}

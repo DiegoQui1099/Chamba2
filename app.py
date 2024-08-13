@@ -10,83 +10,90 @@ mysql = MySQL(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    section = request.args.get('section', 1, type=int)  # Obtener la sección actual
-    per_section = 100  # Número de resultados por sección
-
-    resultados = []
-    total_results = 0
-    total_sections = 0
-
     if request.method == 'POST':
-        # Obtener parámetros del formulario
-        mp = request.form.get('mp')
-        p = request.form.get('p')
-        tipo_norma = request.form.get('tipo_norma')
-        numero = request.form.get('numero')
-        anio = request.form.get('anio')
-        descripcion = request.form.get('descripcion')
+        # Redirige al usuario a la URL con los parámetros de búsqueda en la query string
+        query_params = {
+            'mp': request.form.get('mp'),
+            'p': request.form.get('p'),
+            'tipo_norma': request.form.get('tipo_norma'),
+            'numero': request.form.get('numero'),
+            'anio': request.form.get('anio'),
+            'descripcion': request.form.get('descripcion'),
+            'per_page': request.form.get('per_page', 100)  # Obtener el valor de per_page del formulario
+        }
+        return redirect(url_for('index', **query_params))
 
-        # Construir la consulta con filtros
-        query = """
-            SELECT 
-                t.descripcion AS documento,
-                m.descripcion AS macroproceso,
-                p.descripcion AS proceso,
-                a.numero,
-                a.anio,
-                a.descripcion AS descargas,
-                a.peso,
-                a.nombre
-            FROM archivos a
-            LEFT JOIN listado_documentos ld ON a.nombre = ld.nombre
-            LEFT JOIN macroprocesos m ON ld.id_mp = m.id_mp
-            LEFT JOIN procesos p ON ld.id_p = p.id_p
-            LEFT JOIN tipo_documento t ON a.id_tipo_documento = t.id
-            WHERE (m.id_mp = %s OR %s = 'all')
-            AND (p.id_p = %s OR %s = 'all')
-            AND (a.id_tipo_documento = %s OR %s = 'all')
-            AND (a.numero = %s OR %s = '')
-            AND (a.anio = %s OR %s = '')
-            AND (a.descripcion LIKE %s OR %s = '')
-            ORDER BY a.anio DESC
-            LIMIT %s OFFSET %s;
-            """
-            
-        params = [
-            mp, mp,
-            p, p,
-            tipo_norma, tipo_norma,
-            numero, numero,
-            anio, anio,
-            f"%{descripcion}%", descripcion,
-            per_section,
-            (section - 1) * per_section
-        ]
+    # Si es un GET request, obtenemos los parámetros de búsqueda de la URL
+    mp = request.args.get('mp', 'all')
+    p = request.args.get('p', 'all')
+    tipo_norma = request.args.get('tipo_norma', 'all')
+    numero = request.args.get('numero', '')
+    anio = request.args.get('anio', '')
+    descripcion = request.args.get('descripcion', '')
+    per_page = request.args.get('per_page', 100, type=int)  # Obtener el número de resultados por página (por defecto 100)
+    page = request.args.get('page', 1, type=int)  # Obtener el número de página actual
 
-        cursor = mysql.connection.cursor()
-        cursor.execute(query, tuple(params))
-        resultados = cursor.fetchall()
+    # Construir la consulta con filtros
+    query = """
+        SELECT 
+            t.descripcion AS documento,
+            m.descripcion AS macroproceso,
+            p.descripcion AS proceso,
+            a.numero,
+            a.anio,
+            a.descripcion AS descargas,
+            a.peso,
+            a.nombre
+        FROM archivos a
+        LEFT JOIN listado_documentos ld ON a.nombre = ld.nombre
+        LEFT JOIN macroprocesos m ON ld.id_mp = m.id_mp
+        LEFT JOIN procesos p ON ld.id_p = p.id_p
+        LEFT JOIN tipo_documento t ON a.id_tipo_documento = t.id
+        WHERE (m.id_mp = %s OR %s = 'all')
+        AND (p.id_p = %s OR %s = 'all')
+        AND (a.id_tipo_documento = %s OR %s = 'all')
+        AND (a.numero = %s OR %s = '')
+        AND (a.anio = %s OR %s = '')
+        AND (a.descripcion LIKE %s OR %s = '')
+        ORDER BY a.anio DESC
+        LIMIT %s OFFSET %s;
+    """
+                
+    params = [
+        mp, mp,
+        p, p,
+        tipo_norma, tipo_norma,
+        numero, numero,
+        anio, anio,
+        f"%{descripcion}%", descripcion,
+        per_page,
+        (page - 1) * per_page
+    ]
 
-        # Obtener el conteo total de resultados
-        query_count = """
-            SELECT COUNT(*) AS total
-            FROM archivos a
-            LEFT JOIN listado_documentos ld ON a.nombre = ld.nombre
-            LEFT JOIN macroprocesos m ON ld.id_mp = m.id_mp
-            LEFT JOIN procesos p ON ld.id_p = p.id_p
-            LEFT JOIN tipo_documento t ON a.id_tipo_documento = t.id
-            WHERE (m.id_mp = %s OR %s = 'all')
-            AND (p.id_p = %s OR %s = 'all')
-            AND (a.id_tipo_documento = %s OR %s = 'all')
-            AND (a.numero = %s OR %s = '')
-            AND (a.anio = %s OR %s = '')
-            AND (a.descripcion LIKE %s OR %s = '');
-            """
-        cursor.execute(query_count, tuple(params[:-2]))  # Usar los mismos parámetros, excepto LIMIT y OFFSET
-        total_results = cursor.fetchone()[0]
-        cursor.close()
-        
-        total_sections = (total_results + per_section - 1) // per_section
+    cursor = mysql.connection.cursor()
+    cursor.execute(query, tuple(params))
+    resultados = cursor.fetchall()
+
+    # Obtener el conteo total de resultados
+    query_count = """
+        SELECT COUNT(*) AS total
+        FROM archivos a
+        LEFT JOIN listado_documentos ld ON a.nombre = ld.nombre
+        LEFT JOIN macroprocesos m ON ld.id_mp = m.id_mp
+        LEFT JOIN procesos p ON ld.id_p = p.id_p
+        LEFT JOIN tipo_documento t ON a.id_tipo_documento = t.id
+        WHERE (m.id_mp = %s OR %s = 'all')
+        AND (p.id_p = %s OR %s = 'all')
+        AND (a.id_tipo_documento = %s OR %s = 'all')
+        AND (a.numero = %s OR %s = '')
+        AND (a.anio = %s OR %s = '')
+        AND (a.descripcion LIKE %s OR %s = '');
+    """
+    cursor.execute(query_count, tuple(params[:-2]))  # Usar los mismos parámetros, excepto LIMIT y OFFSET
+    total_results = cursor.fetchone()[0]
+    cursor.close()
+    
+    total_pages = (total_results + per_page - 1) // per_page
 
     # Datos para los selectores
     cursor = mysql.connection.cursor()
@@ -107,8 +114,7 @@ def index():
     # Convertir resultados en una lista de diccionarios con 'id' y 'nombre'
     resultados = [{'nombre': row[7], 'documento': row[0], 'macroproceso': row[1], 'proceso': row[2], 'numero': row[3], 'anio': row[4], 'descripcion': row[5], 'peso': round(row[6] / 1024, 2)} for row in resultados]
 
-    return render_template('index.html', section=section, total_sections=total_sections, macroprocesos=macroprocesos, procesos=procesos, documento=documento, resultados=resultados, anio=anio)
-
+    return render_template('index.html', page=page, total_pages=total_pages, per_page=per_page, macroprocesos=macroprocesos, procesos=procesos, documento=documento, resultados=resultados, anio=anio)
 
 @app.route('/download/<filename>')
 def download_file(filename):
