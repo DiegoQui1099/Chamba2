@@ -2,10 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, abort, sen
 from flask_mysqldb import MySQL
 from config import Config
 import io
-<<<<<<< HEAD
 import math
-=======
->>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -14,7 +12,6 @@ mysql = MySQL(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-<<<<<<< HEAD
     if request.method == 'POST':
         # Redirige al usuario a la URL con los parámetros de búsqueda en la query string
         query_params = {
@@ -102,7 +99,7 @@ def index():
 
     # Datos para los selectores
     cursor = mysql.connection.cursor()
-=======
+
     resultados = []
     
     if request.method == 'POST':
@@ -155,7 +152,7 @@ def index():
 
     # Datos para los selectores
     cursor = mysql.connection.cursor()
->>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
+
     cursor.execute("SELECT id_mp, descripcion FROM macroprocesos")
     macroprocesos = cursor.fetchall()
     
@@ -171,19 +168,17 @@ def index():
     cursor.close()
 
     # Convertir resultados en una lista de diccionarios con 'id' y 'nombre'
-<<<<<<< HEAD
+
     resultados = [{'nombre': row[7], 'documento': row[0], 'macroproceso': row[1], 'proceso': row[2], 'numero': row[3], 'anio': row[4], 'descripcion': row[5], 'peso': round(row[6] / 1024, 2)} for row in resultados]
 
     start_page = max(1, page - 10)
     end_page = min(total_pages, page + 10)
 
     return render_template('index.html', page=page, total_pages=total_pages, per_page=per_page, macroprocesos=macroprocesos, procesos=procesos, documento=documento, resultados=resultados, anio=anio, start_page=start_page, end_page=end_page)
-=======
+
     resultados = [{'nombre': row[7], 'documento': row[0], 'macroproceso': row[1], 'proceso': row[2], 'numero': row[3], 'anio': row[4], 'descripcion': row[5], 'peso': row[6]} for row in resultados]
 
     return render_template('index.html', macroprocesos=macroprocesos, procesos=procesos, documento=documento, resultados=resultados, anio=anio)
-
->>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
 
 @app.route('/download/<filename>')
 def download_file(filename):
