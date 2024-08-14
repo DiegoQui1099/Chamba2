@@ -23,6 +23,7 @@
     <link type="text/css" rel="stylesheet" href="js/jquery.DataTables/jquery.dataTables.min.css" />
     <script type="text/javascript" src="js/jquery.DataTables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/form.js') }}"></script>
+<<<<<<< HEAD
 
     <style>
         /* Estilos personalizados */
@@ -85,6 +86,21 @@
         }
 
         /* Estilos personalizados */
+=======
+    <script>
+        $(document).ready(function () {
+            var table = $('#consulta').DataTable({
+                "dom": 'lfrtip',
+                "language": {
+                    "url": 'js/jquery.DataTables/language/Spanish.json'
+                }
+            });
+            console.log(table.data().toArray()); // Para depuración
+        });
+    </script>
+    <style>
+        /* Estilos personalizados */
+>>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -201,6 +217,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+<<<<<<< HEAD
         .per-page-select {
             padding: 6px 12px;
             border: 1px solid #ccc;
@@ -212,6 +229,8 @@
             /* Ajusta el ancho según el contenido */
         }
 
+=======
+>>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
         @media (max-width: 768px) {
             .form-group {
                 flex-direction: column;
@@ -238,6 +257,7 @@
             color: #333;
             margin-bottom: 20px;
         }
+<<<<<<< HEAD
 
         /* Estilo general para los contenedores de búsqueda y selección */
         .resultado,
@@ -371,6 +391,8 @@
             outline: none;
             /* Eliminar el contorno por defecto */
         }
+=======
+>>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
     </style>
 </head>
 
@@ -384,6 +406,7 @@
                 A continuación podrá consultar la normatividad sobre los procesos electorales y de identificación que
                 adelanta la Registraduría Nacional del Estado Civil.<br><br>Por favor seleccione los parámetros de
                 búsqueda:
+<<<<<<< HEAD
             </div>
             <br><br>
             <div class="form-group">
@@ -512,6 +535,93 @@
         </div>
     </div>
 
+=======
+            </div>
+            <br><br>
+            <div class="form-group">
+                <label for="mp">Macroproceso:</label><br>             
+                <select name="mp" id="mp">
+                    {% for macroproceso in macroprocesos | reverse %}
+                    <option value="{{ macroproceso[0] }}">{{ macroproceso[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="p">Proceso:</label>
+                <select name="p" id="p">
+                    <option value="all">Todos</option>
+                    {% for proceso in procesos %}
+                    <option value="{{ proceso[0] }}">{{ proceso[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tipo_norma">Tipo de Norma:</label>
+                <select name="tipo_norma" id="tipo_norma">
+                    <option value="all">Todos</option>
+                    {% for documento in documento %}
+                    <option value="{{ documento[0] }}">{{ documento[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="numero">Número:</label>
+                <input type="text" name="numero" id="numero">
+            </div>
+            <div class="form-group">
+                <label for="anio">Año:</label>
+                <select name="anio" id="anio">
+                    <option value="">Seleccione...</option>
+                    {% for anio_item in anio %}
+                    <option value="{{ anio_item[0] }}">{{ anio_item[0] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <input type="text" name="descripcion" id="descripcion">
+            </div>
+            <center>
+                <div class="submit">
+                    <input type="submit" value="Consultar" name="submit">
+                </div>
+            </center>
+        </form>
+    </div>
+    {% if resultados %}
+    <div id="contenedor-resultados">
+        <p>Se encontraron {{ resultados|length }} coincidencias</p>
+        <table id class="contenedor-table">
+            <thead>
+                <tr>
+                    <th>DOCUMENTO</th>
+                    <th>MACROPROCESO</th>
+                    <th>PROCESO</th>
+                    <th>Año</th>
+                    <th>Descripción</th>
+                    <th>Descargar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resultado in resultados %}
+                <tr>
+                    <td>{{ resultado.documento }} <br> No. {{ resultado.numero }}</td>
+                    <td>{{ resultado.macroproceso }}</td>
+                    <td>{{ resultado.proceso }}</td>
+                    <td>{{ resultado.anio }}</td>
+                    <td>{{ resultado.descripcion }}</td>
+                    <td>
+                        <a href="{{ url_for('download_file', filename=resultado.nombre) }}">
+                            <img src="{{ url_for('static', filename='img/pdf_p.png') }}" alt="PDF">
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+>>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
     {% else %}
     <div id="contenedor-resultados">
         <p>No se encontraron resultados.</p>
@@ -520,4 +630,8 @@
     {% include 'footer.html' %}
 </body>
 
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79

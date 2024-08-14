@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+<<<<<<< HEAD
 function updatePerPage() {
     const perPage = document.getElementById('per_page').value;
     const url = new URL(window.location.href);
@@ -90,3 +91,16 @@ function searchResults() {
         }
     }
 }
+=======
+/*para la consulta*/ 
+$(document).ready(function() {
+    $('#consulta').DataTable({
+        "dom": 'lfrtip',
+        "language": {
+            "url": 'js/jquery.DataTables/language/Spanish.json'
+        },
+        "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "Todo"] ],
+        "pageLength": 10
+    });
+});
+>>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
