@@ -1,5 +1,3 @@
-// Archivo: form.js
- 
 document.addEventListener('DOMContentLoaded', function() {
     const macroprocesoSelect = document.getElementById('mp');
     const procesoSelect = document.getElementById('p');
@@ -57,15 +55,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-/*para la consulta*/ 
-$(document).ready(function() {
-    $('#consulta').DataTable({
-        "dom": 'lfrtip',
-        "language": {
-            "url": 'js/jquery.DataTables/language/Spanish.json'
-        },
-        "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "Todo"] ],
-        "pageLength": 10
-    });
-});
+ 
+function updatePerPage() {
+    const perPage = document.getElementById('per_page').value;
+    const url = new URL(window.location.href);
+    url.searchParams.set('per_page', perPage);
+    window.location.href = url.toString();
+}
