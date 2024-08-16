@@ -22,8 +22,8 @@
     <script type='text/javascript' src='rnec/js/plugins.js'></script>
     <link type="text/css" rel="stylesheet" href="js/jquery.DataTables/jquery.dataTables.min.css" />
     <script type="text/javascript" src="js/jquery.DataTables/jquery.dataTables.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/form.js') }}"></script>
-<<<<<<< HEAD
 
     <style>
         /* Estilos personalizados */
@@ -32,7 +32,6 @@
             justify-content: center;
             margin-top: 20px;
             flex-wrap: wrap;
-            /* Permite que los elementos se envuelvan en pantallas más pequeñas */
         }
 
         .pagination a {
@@ -43,7 +42,6 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 14px;
-            /* Ajustar el tamaño del texto según sea necesario */
         }
 
         .pagination a.active {
@@ -59,60 +57,6 @@
         .pagination a.disabled {
             color: #ccc;
             cursor: not-allowed;
-        }
-
-        /* Contenedor de resultados */
-        #contenedor-resultados {
-            width: 90%;
-            /* Ajusta el ancho al 90% del contenedor padre */
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Estilos para que la tabla y la paginación se ajusten en pantallas pequeñas */
-        @media (max-width: 768px) {
-            .pagination a {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
-
-            #contenedor-resultados {
-                width: 95%;
-                padding: 10px;
-            }
-        }
-
-        /* Estilos personalizados */
-=======
-    <script>
-        $(document).ready(function () {
-            var table = $('#consulta').DataTable({
-                "dom": 'lfrtip',
-                "language": {
-                    "url": 'js/jquery.DataTables/language/Spanish.json'
-                }
-            });
-            console.log(table.data().toArray()); // Para depuración
-        });
-    </script>
-    <style>
-        /* Estilos personalizados */
->>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        h2 {
-            color: #05463F;
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
         }
 
         #contenedor-formulario {
@@ -147,6 +91,12 @@
             font-size: 16px;
         }
 
+        .form-group select.select-per-page {
+            flex: 1;
+            padding: 10px;
+            font-size: 14px;
+        }
+
         .submit input[type="submit"] {
             background-color: #007BFF;
             color: #fff;
@@ -161,76 +111,12 @@
             background-color: #0056b3;
         }
 
-        #contenedor-resultados {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .contenedor-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
+        .intro {
             font-size: 16px;
-            text-align: left;
+            color: #333;
+            margin-bottom: 20px;
         }
 
-        .contenedor-table thead {
-            background-color: #f2f2f2;
-        }
-
-        .contenedor-table th {
-            padding: 10px;
-            border: 1px solid #ddd;
-            font-weight: bold;
-        }
-
-        .contenedor-table tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .contenedor-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .contenedor-table a.btn {
-            display: inline-block;
-            padding: 6px 12px;
-            font-size: 14px;
-            color: #fff;
-            background-color: #007bff;
-            text-decoration: none;
-            border-radius: 4px;
-            text-align: center;
-        }
-
-        .contenedor-table a.btn:hover {
-            background-color: #0056b3;
-        }
-
-        .contenedor-table {
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-<<<<<<< HEAD
-        .per-page-select {
-            padding: 6px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            margin-left: 55px;
-            /* Espaciado a la izquierda */
-            width: auto;
-            /* Ajusta el ancho según el contenido */
-        }
-
-=======
->>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
         @media (max-width: 768px) {
             .form-group {
                 flex-direction: column;
@@ -252,161 +138,24 @@
             }
         }
 
-        .intro {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 20px;
+        /* Estilo para ocultar el contenedor de resultados */
+        .resultado-container {
+            display: none;
         }
-<<<<<<< HEAD
-
-        /* Estilo general para los contenedores de búsqueda y selección */
-        .resultado,
-        .buscar {
-            margin-bottom: 20px;
-            /* Espacio debajo de cada div */
-            padding: 10px;
-            /* Espacio interno */
-            border-radius: 8px;
-            /* Bordes redondeados */
-            background-color: #f9f9f9;
-            /* Color de fondo suave */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* Sombra sutil */
-            display: flex;
-            /* Para alinear los elementos en fila */
-            align-items: center;
-            /* Centrar verticalmente los elementos */
-        }
-
-        /* Estilo para las etiquetas */
-        .resultado label,
-        .buscar label {
-            margin-right: 10px;
-            /* Espacio a la derecha de las etiquetas */
-            font-weight: bold;
-            /* Negrita para las etiquetas */
-            font-size: larger;
-        }
-
-        /* Estilo para el campo de selección */
-        #per_page {
-            padding: 5px 10px;
-            /* Espacio interno del campo de selección */
-            border: 1px solid #ddd;
-            /* Borde gris claro */
-            border-radius: 4px;
-            /* Bordes redondeados */
-            font-size: 14px;
-            /* Tamaño de fuente */
-        }
-
-        /* Estilo para el campo de búsqueda */
-        #search {
-            padding: 5px 10px;
-            /* Espacio interno del campo de búsqueda */
-            border: 1px solid #ddd;
-            /* Borde gris claro */
-            border-radius: 4px;
-            /* Bordes redondeados */
-            font-size: 14px;
-            /* Tamaño de fuente */
-            width: 250px;
-            /* Ancho fijo para el campo de búsqueda */
-        }
-
-        /* Estilo para la caja de selección y búsqueda en el estado de foco */
-        #per_page:focus,
-        #search:focus {
-            border-color: #007bff;
-            /* Color de borde en foco */
-            outline: none;
-            /* Eliminar el contorno por defecto */
-        }
-
-        /* Contenedor que agrupa los dos divs */
-        .contener-filtros {
-            display: flex;
-            /* Usa flexbox para la disposición en fila */
-            justify-content: space-between;
-            /* Espacia los divs para que estén en los extremos */
-            align-items: center;
-            /* Centra verticalmente los divs */
-            margin-bottom: 20px;
-            /* Espacio debajo del contenedor */
-        }
-
-        /* Estilo para los divs internos */
-        .resultado,
-        .buscar {
-            padding: 10px;
-            /* Espacio interno */
-            border-radius: 8px;
-            /* Bordes redondeados */
-            background-color: #f9f9f9;
-            /* Color de fondo suave */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* Sombra sutil */
-        }
-
-        /* Estilo para las etiquetas */
-        .resultado label,
-        .buscar label {
-            margin-right: 10px;
-            /* Espacio a la derecha de las etiquetas */
-            font-weight: bold;
-            /* Negrita para las etiquetas */
-        }
-
-        /* Estilo para el campo de selección */
-        #per_page {
-            padding: 5px 10px;
-            /* Espacio interno del campo de selección */
-            border: 1px solid #ddd;
-            /* Borde gris claro */
-            border-radius: 4px;
-            /* Bordes redondeados */
-            font-size: 14px;
-            /* Tamaño de fuente */
-        }
-
-        /* Estilo para el campo de búsqueda */
-        #search {
-            padding: 5px 10px;
-            /* Espacio interno del campo de búsqueda */
-            border: 1px solid #ddd;
-            /* Borde gris claro */
-            border-radius: 4px;
-            /* Bordes redondeados */
-            font-size: 14px;
-            /* Tamaño de fuente */
-            width: 250px;
-            /* Ancho fijo para el campo de búsqueda */
-        }
-
-        /* Estilo para la caja de selección y búsqueda en el estado de foco */
-        #per_page:focus,
-        #search:focus {
-            border-color: #007bff;
-            /* Color de borde en foco */
-            outline: none;
-            /* Eliminar el contorno por defecto */
-        }
-=======
->>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
     </style>
+
 </head>
 
 <body>
     {% include 'header.html' %}
 
     <div id="contenedor-formulario">
-        <h2>Consulta de Normatividad</h2>
-        <form action="/" method="post" class="mb-4">
+        <center><h2>Consulta de Normatividad</h2></center>
+        <form action="/" method="post" id="search-form" class="mb-4">
             <div class="intro">
                 A continuación podrá consultar la normatividad sobre los procesos electorales y de identificación que
                 adelanta la Registraduría Nacional del Estado Civil.<br><br>Por favor seleccione los parámetros de
                 búsqueda:
-<<<<<<< HEAD
             </div>
             <br><br>
             <div class="form-group">
@@ -443,7 +192,7 @@
                 <label for="anio">Año:</label>
                 <select name="anio" id="anio">
                     <option value="">Seleccione...</option>
-                    {% for anio_item in anio %}
+                    {% for anio_item in anio_list %}
                     <option value="{{ anio_item[0] }}">{{ anio_item[0] }}</option>
                     {% endfor %}
                 </select>
@@ -454,184 +203,56 @@
             </div>
             <center>
                 <div class="submit">
-                    <input type="submit" value="Consultar" name="submit">
+                    <input type="submit" value="Consultar" name="submit" >
                 </div>
             </center>
         </form>
     </div>
-    {% if resultados %}
-    <div id="contenedor-resultados">
 
-        <p>Se encontraron {{ total_results }} coincidencias</p>
-        <table id="consulta" class="contenedor-table">
-            <div class="contener-filtros">
-                <div class="resultado">
-                    <label for="per_page">Resultados por página:</label>
-                    <select name="per_page" id="per_page" onchange="updatePerPage()">
-                        <option value="10" {% if per_page==10 %}selected{% endif %}>10</option>
-                        <option value="25" {% if per_page==25 %}selected{% endif %}>25</option>
-                        <option value="50" {% if per_page==50 %}selected{% endif %}>50</option>
-                        <option value="100" {% if per_page==100 %}selected{% endif %}>100</option>
-                    </select>
-                </div>
-            </div>
 
-            <thead>
-                <tr>
-                    <th>DOCUMENTO</th>
-                    <th>MACROPROCESO</th>
-                    <th>PROCESO</th>
-                    <th>Año</th>
-                    <th>Descripción</th>
-                    <th>Descargar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for resultado in resultados %}
-                <tr>
-                    <td>{{ resultado.documento }} <br> No. {{ resultado.numero }}</td>
-                    <td>{{ resultado.macroproceso }}</td>
-                    <td>{{ resultado.proceso }}</td>
-                    <td>{{ resultado.anio }}</td>
-                    <td>{{ resultado.descripcion }}</td>
-                    <td>
-                        <a href="{{ url_for('download_file', filename=resultado.nombre) }}">
-                            {% if resultado.nombre.endswith('.pdf') %}
-                            <img src="{{ url_for('static', filename='img/pdf_p.png') }}" alt="PDF">
-                            {% elif resultado.nombre.endswith('.doc') or resultado.nombre.endswith('.docx') %}
-                            <img src="{{ url_for('static', filename='img/doc_d.png') }}" alt="DOC">
-                            {% endif %}
-                            <br>
-                            {{ resultado.peso }}KB
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="pagination">
-            {% if page > 1 %}
-            <a
-                href="{{ url_for('index', page=1, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}">Inicio</a>
-            {% if start_page > 0 %}
-            <span>...</span>
-            {% endif %}
-            {% endif %}
-
-            {% for p in range(start_page, end_page) %}
-            {% if p > 0 and p <= total_pages %} <a
-                href="{{ url_for('index', page=p, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}"
-                class="{% if p == page %}active{% endif %}">{{ p }}</a>
-                {% endif %}
-                {% endfor %}
-
-                {% if page < total_pages %} {% if end_page < total_pages %} <span>...</span>
-                    {% endif %}
-                    <a
-                        href="{{ url_for('index', page=total_pages, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}">{{
-                        total_pages }}</a>
-                    {% endif %}
-        </div>
+    <div class="resultado-container">
+        {% include 'resultado.html' %}
     </div>
 
-=======
-            </div>
-            <br><br>
-            <div class="form-group">
-                <label for="mp">Macroproceso:</label><br>             
-                <select name="mp" id="mp">
-                    {% for macroproceso in macroprocesos | reverse %}
-                    <option value="{{ macroproceso[0] }}">{{ macroproceso[1] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="p">Proceso:</label>
-                <select name="p" id="p">
-                    <option value="all">Todos</option>
-                    {% for proceso in procesos %}
-                    <option value="{{ proceso[0] }}">{{ proceso[1] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="tipo_norma">Tipo de Norma:</label>
-                <select name="tipo_norma" id="tipo_norma">
-                    <option value="all">Todos</option>
-                    {% for documento in documento %}
-                    <option value="{{ documento[0] }}">{{ documento[1] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="numero">Número:</label>
-                <input type="text" name="numero" id="numero">
-            </div>
-            <div class="form-group">
-                <label for="anio">Año:</label>
-                <select name="anio" id="anio">
-                    <option value="">Seleccione...</option>
-                    {% for anio_item in anio %}
-                    <option value="{{ anio_item[0] }}">{{ anio_item[0] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="descripcion">Descripción:</label>
-                <input type="text" name="descripcion" id="descripcion">
-            </div>
-            <center>
-                <div class="submit">
-                    <input type="submit" value="Consultar" name="submit">
-                </div>
-            </center>
-        </form>
-    </div>
-    {% if resultados %}
-    <div id="contenedor-resultados">
-        <p>Se encontraron {{ resultados|length }} coincidencias</p>
-        <table id class="contenedor-table">
-            <thead>
-                <tr>
-                    <th>DOCUMENTO</th>
-                    <th>MACROPROCESO</th>
-                    <th>PROCESO</th>
-                    <th>Año</th>
-                    <th>Descripción</th>
-                    <th>Descargar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for resultado in resultados %}
-                <tr>
-                    <td>{{ resultado.documento }} <br> No. {{ resultado.numero }}</td>
-                    <td>{{ resultado.macroproceso }}</td>
-                    <td>{{ resultado.proceso }}</td>
-                    <td>{{ resultado.anio }}</td>
-                    <td>{{ resultado.descripcion }}</td>
-                    <td>
-                        <a href="{{ url_for('download_file', filename=resultado.nombre) }}">
-                            <img src="{{ url_for('static', filename='img/pdf_p.png') }}" alt="PDF">
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
-    </div>
->>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
-    {% else %}
-    <div id="contenedor-resultados">
-        <p>No se encontraron resultados.</p>
-    </div>
-    {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('search-form');
+            const submitButton = document.querySelector('.submit input[type="submit"]');
+
+            // Manejar el envío del formulario
+            submitButton.addEventListener('click', function (event) {
+                // Evitar que el botón de enviar recargue la página
+                event.preventDefault();
+
+                // Enviar el formulario mediante AJAX
+                const formData = new FormData(form);
+
+                fetch('/', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        // Actualizar el contenedor de resultados
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newResults = doc.querySelector('.resultado-container').innerHTML;
+                        document.querySelector('.resultado-container').innerHTML = newResults;
+
+                        // Mostrar el contenedor de resultados
+                        document.querySelector('.resultado-container').style.display = 'block';
+
+                        // Limpiar el formulario
+                        form.reset();
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
+
     {% include 'footer.html' %}
 </body>
 
-<<<<<<< HEAD
+
+
 </html>
-=======
-</html>
->>>>>>> c13d68e610af18a076cf63d838ab6ecbefba2f79
