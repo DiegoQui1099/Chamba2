@@ -22,32 +22,26 @@
     <script type='text/javascript' src='rnec/js/plugins.js'></script>
     <link type="text/css" rel="stylesheet" href="js/jquery.DataTables/jquery.dataTables.min.css" />
     <script type="text/javascript" src="js/jquery.DataTables/jquery.dataTables.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/form.js') }}"></script>
 
-    <!--para escoger cantidad de resultados-->
-    <script type="text/javascript">
-        function updatePerPage() {
-            const perPage = document.getElementById('per_page').value;
-            const url = new URL(window.location.href);
-            url.searchParams.set('per_page', perPage);
-            window.location.href = url.toString();
-        }
-    </script>
     <style>
         /* Estilos personalizados */
         .pagination {
             display: flex;
             justify-content: center;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .pagination a {
-            padding: 8px 16px;
-            margin: 0 4px;
+            padding: 8px 12px;
+            margin: 2px;
             text-decoration: none;
             color: #007bff;
             border: 1px solid #ddd;
             border-radius: 4px;
+            font-size: 14px;
         }
 
         .pagination a.active {
@@ -63,21 +57,6 @@
         .pagination a.disabled {
             color: #ccc;
             cursor: not-allowed;
-        }
-
-        /* Estilos personalizados */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        h2 {
-            color: #05463F;
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
         }
 
         #contenedor-formulario {
@@ -112,6 +91,12 @@
             font-size: 16px;
         }
 
+        .form-group select.select-per-page {
+            flex: 1;
+            padding: 10px;
+            font-size: 14px;
+        }
+
         .submit input[type="submit"] {
             background-color: #007BFF;
             color: #fff;
@@ -126,60 +111,10 @@
             background-color: #0056b3;
         }
 
-        #contenedor-resultados {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .contenedor-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
+        .intro {
             font-size: 16px;
-            text-align: left;
-        }
-
-        .contenedor-table thead {
-            background-color: #f2f2f2;
-        }
-
-        .contenedor-table th {
-            padding: 10px;
-            border: 1px solid #ddd;
-            font-weight: bold;
-        }
-
-        .contenedor-table tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .contenedor-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .contenedor-table a.btn {
-            display: inline-block;
-            padding: 6px 12px;
-            font-size: 14px;
-            color: #fff;
-            background-color: #007bff;
-            text-decoration: none;
-            border-radius: 4px;
-            text-align: center;
-        }
-
-        .contenedor-table a.btn:hover {
-            background-color: #0056b3;
-        }
-
-        .contenedor-table {
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #333;
+            margin-bottom: 20px;
         }
 
         @media (max-width: 768px) {
@@ -203,46 +138,20 @@
             }
         }
 
-        .intro {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .custom-select {
-            appearance: none;
-            background-color: #f8f9fa;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            padding: 8px 16px;
-            font-size: 16px;
-            color: #495057;
-            cursor: pointer;
-            width: 100%;
-            max-width: 200px;
-            /* Ajusta el ancho según sea necesario */
-            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-
-        .custom-select:focus {
-            border-color: #80bdff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-            outline: none;
-        }
-
-        .custom-select option {
-            background-color: #fff;
-            color: #495057;
-            padding: 10px;
+        /* Estilo para ocultar el contenedor de resultados */
+        .resultado-container {
+            display: none;
         }
     </style>
+
 </head>
 
 <body>
     {% include 'header.html' %}
+
     <div id="contenedor-formulario">
-        <h2>Consulta de Normatividad</h2>
-        <form action="/" method="post" class="mb-4">
+        <center><h2>Consulta de Normatividad</h2></center>
+        <form action="/" method="post" id="search-form" class="mb-4">
             <div class="intro">
                 A continuación podrá consultar la normatividad sobre los procesos electorales y de identificación que
                 adelanta la Registraduría Nacional del Estado Civil.<br><br>Por favor seleccione los parámetros de
@@ -283,7 +192,7 @@
                 <label for="anio">Año:</label>
                 <select name="anio" id="anio">
                     <option value="">Seleccione...</option>
-                    {% for anio_item in anio %}
+                    {% for anio_item in anio_list %}
                     <option value="{{ anio_item[0] }}">{{ anio_item[0] }}</option>
                     {% endfor %}
                 </select>
@@ -294,90 +203,56 @@
             </div>
             <center>
                 <div class="submit">
-                    <input type="submit" value="Consultar" name="submit">
+                    <input type="submit" value="Consultar" name="submit" >
                 </div>
             </center>
         </form>
     </div>
-    {% if resultados %}
-    <div id="contenedor-resultados">
-        <p>Se encontraron {{ total_results }} coincidencias</p>
-        <table id="consulta" class="contenedor-table">
-            <div class="form-group">
-                <label for="per_page">Resultados por página:</label>
-                <select name="per_page" id="slec" onchange="updatePerPage()">
-                    <option value="10" {% if per_page==10 %}selected{% endif %}>10</option>
-                    <option value="25" {% if per_page==25 %}selected{% endif %}>25</option>
-                    <option value="50" {% if per_page==50 %}selected{% endif %}>50</option>
-                    <option value="100" {% if per_page==100 %}selected{% endif %}>100</option>
-                </select>
-            </div>
-            <thead>
-                <tr>
-                    <th>DOCUMENTO</th>
-                    <th>MACROPROCESO</th>
-                    <th>PROCESO</th>
-                    <th>Año</th>
-                    <th>Descripción</th>
-                    <th>Descargar</th>
-                </tr>
-            </thead>
 
-            <tbody>
-                {% for resultado in resultados %}
-                <tr>
-                    <td>{{ resultado.documento }} <br> No. {{ resultado.numero }}</td>
-                    <td>{{ resultado.macroproceso }}</td>
-                    <td>{{ resultado.proceso }}</td>
-                    <td>{{ resultado.anio }}</td>
-                    <td>{{ resultado.descripcion }}</td>
-                    <td>
-                        <a href="{{ url_for('download_file', filename=resultado.nombre) }}">
-                            {% if resultado.nombre.endswith('.pdf') %}
-                            <img src="{{ url_for('static', filename='img/pdf_p.png') }}" alt="PDF">
-                            {% elif resultado.nombre.endswith('.doc') or resultado.nombre.endswith('.docx') %}
-                            <img src="{{ url_for('static', filename='img/doc_d.png') }}" alt="DOC">
-                            {% endif %}
-                            <br>
-                            {{ resultado.peso }}KB
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
 
-        <div class="pagination">
-            {% if page > 1 %}
-            <a
-                href="{{ url_for('index', page=1, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}">Inicio</a>
-            {% if start_page > 0 %}
-            <span>...</span>
-            {% endif %}
-            {% endif %}
-
-            {% for p in range(start_page, end_page) %}
-            {% if p > 0 and p <= total_pages %} <a
-                href="{{ url_for('index', page=p, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}"
-                class="{% if p == page %}active{% endif %}">{{ p }}</a>
-                {% endif %}
-                {% endfor %}
-
-                {% if page < total_pages %} {% if end_page < total_pages %} <span>...</span>
-                    {% endif %}
-                    <a
-                        href="{{ url_for('index', page=total_pages, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}">{{
-                        total_pages }}</a>
-                    {% endif %}
-        </div>
+    <div class="resultado-container">
+        {% include 'resultado.html' %}
     </div>
 
-    {% else %}
-    <div id="contenedor-resultados">
-        <p>No se encontraron resultados.</p>
-    </div>
-    {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('search-form');
+            const submitButton = document.querySelector('.submit input[type="submit"]');
+
+            // Manejar el envío del formulario
+            submitButton.addEventListener('click', function (event) {
+                // Evitar que el botón de enviar recargue la página
+                event.preventDefault();
+
+                // Enviar el formulario mediante AJAX
+                const formData = new FormData(form);
+
+                fetch('/', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        // Actualizar el contenedor de resultados
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newResults = doc.querySelector('.resultado-container').innerHTML;
+                        document.querySelector('.resultado-container').innerHTML = newResults;
+
+                        // Mostrar el contenedor de resultados
+                        document.querySelector('.resultado-container').style.display = 'block';
+
+                        // Limpiar el formulario
+                        form.reset();
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
+
     {% include 'footer.html' %}
 </body>
+
+
 
 </html>

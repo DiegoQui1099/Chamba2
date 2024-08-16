@@ -985,7 +985,7 @@ a.btn-action-cyanblue:hover{
 .form-control{
     border-radius: 30px !important;
     background-color: white;
-    margin: 20px;
+    margin: 0px;
 }
 .form-select{
     border-radius: 30px!important;
@@ -1160,7 +1160,7 @@ a.btn-action-cyanblue:hover{
     margin: 0px 0px 0px 0px;
 }
 /*****FOOTER*****/
-footer{
+footer {
     display: block;
     float: left;
     width: 100%;
@@ -1168,145 +1168,173 @@ footer{
     background-repeat: no-repeat;
     background-size: cover;
     padding: 50px 0px 0px 0px;
-    background: radial-gradient(circle at 1% 1%, rgba(0,245,227,0.5), transparent 10%),radial-gradient(circle at 99% 99%, rgba(0,245,227,0.5), transparent 10%),radial-gradient(circle at 50% 50%, #002D55, #002D55 100%);
+    /* background: radial-gradient(circle at 1% 1%, rgba(0,245,227,0.5), transparent 10%),radial-gradient(circle at 99% 99%, rgba(0,245,227,0.5), transparent 10%),radial-gradient(circle at 50% 50%, #002D55, #002D55 100%); */
+    background-image: url(../img/footer.png);
+    background-position: 35% 50%;
 }
-.disclamer{
+
+.disclamer {
     float: left;
-	padding-left: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.menu-footer{
+
+.disclamer a img {
+    width: 100%;
+    max-width: 250px;
+}
+
+.menu-footer {
     display: block;
     float: left;
-    padding-top: 20px;
+    padding: 20px 50px 0;
 }
-.logo-container{
+
+.logo-container {
     display: block;
     float: left;
     width: 100%;
     height: 100px;
     margin: 30px 0px;
-    padding-left: 50px;
+    /* padding-left: 50px; */
+    text-align: center;
 }
-.logo-container img{
-    display: block;
-    float: left;
+
+.logo-container img {
+    display: inline-block;
+    /* float: left; */
     width: 150px;
     height: auto;
 }
-.info-img{
+
+.info-img {
     width: 30px;
     height: 30px;
 }
-.log-rncefooter{
+
+.log-rncefooter {
     height: 100% !important;
     width: auto !important;
 }
-.socialnet-container{
+
+.socialnet-container {
     display: block;
     float: left;
     width: 100%;
     height: auto;
+    text-align: center;
 }
-.socialnet{
-    display: block;
-    float: left;
+
+.socialnet {
+    display: inline-block;
+    /* float: left; */
     width: 25px;
     height: 25px;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: contain;
     margin-right: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
-.facebook{
+
+.socialnet:last-child {
+    margin-right: 0;
+}
+
+.facebook {
     background-image: url("../img/ico-footer-facebook.svg");
 }
-.twitter{
-    background-image: url("../img/ico-footer-twitter.svg");
+
+.twitter {
+    background-image: url("../img/ico-footer-X.svg");
 }
-.youtube{
+
+.youtube {
     background-image: url("../img/ico-footer-youtube.svg");
 }
-.instagram{
+
+.instagram {
     background-image: url("../img/ico-footer-instagram.svg");
 }
-.linkedin{
+
+.linkedin {
     background-image: url("../img/ico-footer-linkedin.svg");
 }
-.tiktok{
+
+.tiktok {
     background-image: url("../img/ico-footer-tiktok.png");
 }
-.buttons-section-r{
-    display: flex;
-    justify-content: center;
-    height: auto;
-    float: left;
+
+.kwai {
+    background-image: url("../img/ico-footer-kwai.svg");
 }
-.content-footer{
+
+.threads {
+    background-image: url("../images/ico-footer-threads.svg");
+}
+
+.accordion-button {
+    color: #FFFFFF;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+
+}
+
+.accordion-button:not(.collapsed) {
+    color: #FFFFFF;
+}
+
+.accordion-button:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.accordion-item {
+    background-color: transparent;
+    border: none;
+}
+
+.arrow-accordion {
+    color: #002D55;
+}
+
+.arrow-accordion::after {
+    background-image: url("../images/Chevron-rightarrowblue.svg") !important;
+}
+
+.arrow-accordion:not(.collapsed)::after {
+    background-image: url("../images/Chevron-rightarrowblue.svg") !important;
+}
+
+.content-footer {
     display: flex;
     width: 100%;
     height: auto;
     padding-top: 20px;
+    padding-left: 40px;
 
 }
-.content-sections{
+
+.content-sections {
     padding: 0px 20px 0px 0px;
 }
 
-/******FOOTBUTTONS****/
-.bar-footer{
-    margin-bottom: 60px;
+.bar-footer {
+    /* margin-bottom: 60px; */
     width: 100%;
-    background-color:  #021C34;
+    background-color: #021C34;
     text-align: center;
+    display: flex;
+    flex-direction: row;
+    padding: 0 10px;
 
-}
-.container-buttons{
-    margin: 0;
-    padding: 0;
-}
-.buttons-section{
-    vertical-align: middle;
-}
-.buttons{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.button-link{
-    display: block;
-    float: left;
-    width: 100%;
-    height: 65px;
-    background-repeat: no-repeat;
-    background-size: inherit;
-    background-position: 25% 50%;
-    background-color: #002D55;
-    color: #4D6C88;
-    /* color: #ffffff; */
-    font-size: 14px;
-    text-align: center;
-    padding-top: 25px;
-}
-.institutional{
-    background-image: url("../img/institucinal.png");
-}
-.services {
-    background-image: url("../img/servicios.png");
-}
-.cedae{
-    background-image: url("../img/CEDAE.png");
-    background-position: 15% 50% !important;
-}
-
-.active-button{
-    background-color: #00F5E8 !important;
-    color: #002D55;
-
-}
-
-.active-button:hover{
-    color: #002D55;
 }
 
 /*******MENU****/

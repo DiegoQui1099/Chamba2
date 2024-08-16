@@ -1,0 +1,210 @@
+<script type="text/javascript" src="{{ url_for('static', filename='js/change.js') }}"></script>
+
+<!-- resultados.html -->
+<style>
+    /* Estilos para la tabla de resultados */
+    #consulta {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    #consulta th,
+    #consulta td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    #consulta th {
+        background-color: #f4f4f4;
+    }
+
+    /* Estilos para la paginación en resultados */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .pagination a {
+        padding: 8px 12px;
+        margin: 2px;
+        text-decoration: none;
+        color: #007bff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .pagination a.active {
+        background-color: #007bff;
+        color: white;
+        border: 1px solid #007bff;
+        font-weight: bold;
+    }
+
+    .pagination a:hover {
+        background-color: #ddd;
+    }
+
+    .pagination a.disabled {
+        color: #ccc;
+        cursor: not-allowed;
+    }
+
+    /* Contenedor de resultados */
+    #contenedor-resultados {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+
+{% if resultados %}
+<div id="contenedor-resultados">
+    <p>Se encontraron {{ total_results }} coincidencias</p>
+
+    <form method="get" action="{{ url_for('resultado') }}">
+        <div class="form-group">
+            <label for="per_page">Resultados por página:</label>
+            <select name="per_page" id="per_page" class="select-per-page" onchange="updatePerPage()">
+                <option value="10" {% if per_page==10 %}selected{% endif %}>10</option>
+                <option value="25" {% if per_page==25 %}selected{% endif %}>25</option>
+                <option value="50" {% if per_page==50 %}selected{% endif %}>50</option>
+                <option value="100" {% if per_page==100 %}selected{% endif %}>100</option>
+            </select>
+
+            <input type="hidden" name="mp" value="{{ request.args.get('mp') }}">
+            <input type="hidden" name="p" value="{{ request.args.get('p') }}">
+            <input type="hidden" name="tipo_norma" value="{{ request.args.get('tipo_norma') }}">
+            <input type="hidden" name="numero" value="{{ request.args.get('numero') }}">
+            <input type="hidden" name="anio" value="{{ request.args.get('anio') }}">
+            <input type="hidden" name="descripcion" value="{{ request.args.get('descripcion') }}">
+        </div>
+    </form>
+
+    <table id="consulta" class="contenedor-table">
+        <thead>
+            <tr>
+                <th>DOCUMENTO</th>
+                <th>MACROPROCESO</th>
+                <th>PROCESO</th>
+                <th>Año</th>
+                <th>Descripción</th>
+                <th>Descargar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for resultado in resultados %}
+            <tr>
+                <td>{{ resultado.documento }} <br> No. {{ resultado.numero }}</td>
+                <td>{{ resultado.macroproceso }}</td>
+                <td>{{ resultado.proceso }}</td>
+                <td>{{ resultado.anio }}</td>
+                <td>{{ resultado.descripcion }}</td>
+                <td>
+                    <a href="{{ url_for('download_file', filename=resultado.nombre) }}">
+                        {% if resultado.nombre.endswith('.pdf') %}
+                        <img src="{{ url_for('static', filename='img/pdf_p.png') }}" alt="PDF">
+                        {% elif resultado.nombre.endswith('.doc') or resultado.nombre.endswith('.docx') %}
+                        <img src="{{ url_for('static', filename='img/doc_d.png') }}" alt="DOC">
+                        {% endif %}
+                        <br>
+                        {{ resultado.peso }}KB
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        {% if page > 1 %}
+        <a
+            href="{{ url_for('index', page=1, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}">Inicio</a>
+        {% if start_page > 0 %}
+        <span>...</span>
+        {% endif %}
+        {% endif %}
+
+        {% for p in range(start_page, end_page) %}
+        {% if p > 0 and p <= total_pages %} <a
+            href="{{ url_for('index', page=p, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}"
+            class="{% if p == page %}active{% endif %}">{{ p }}</a>
+            {% endif %}
+            {% endfor %}
+
+            {% if page < total_pages %} {% if end_page < total_pages %} <span>...</span>
+                {% endif %}
+                <a
+                    href="{{ url_for('index', page=total_pages, mp=request.args.get('mp'), p=request.args.get('p'), tipo_norma=request.args.get('tipo_norma'), numero=request.args.get('numero'), anio=request.args.get('anio'), descripcion=request.args.get('descripcion'), per_page=request.args.get('per_page')) }}">{{
+                    total_pages }}</a>
+                {% endif %}
+    </div>
+</div>
+{% else %}
+<p>No se encontraron resultados.</p>
+{% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Manejar el envío del formulario
+        document.querySelector('.submit input[type="submit"]').addEventListener('click', function (event) {
+            event.preventDefault(); // Evita el envío normal del formulario
+
+            // Mostrar el contenedor de resultados
+            document.querySelector('.resultado-container').style.display = 'block';
+
+            // Crear FormData del formulario
+            const form = document.querySelector('#search-form');
+            const formData = new FormData(form);
+
+            // Realizar la petición AJAX
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newResults = doc.querySelector('.resultado-container').innerHTML;
+                    document.querySelector('.resultado-container').innerHTML = newResults;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        // Añadir event listeners a los enlaces de paginación
+        document.addEventListener('click', function (event) {
+            if (event.target.matches('.pagination a')) {
+                event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+                // Obtener el destino de la página
+                const href = event.target.getAttribute('href');
+
+                // Realizar una solicitud AJAX para obtener los resultados sin recargar la página
+                fetch(href)
+                    .then(response => response.text())
+                    .then(html => {
+                        // Crear un nuevo elemento DOM para contener la respuesta
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+
+                        // Obtener solo el contenido de resultados del documento cargado
+                        const newResults = doc.querySelector('.resultado-container').innerHTML;
+
+                        // Actualizar el contenedor de resultados con la nueva información
+                        document.querySelector('.resultado-container').innerHTML = newResults;
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+    });
+
+</script>

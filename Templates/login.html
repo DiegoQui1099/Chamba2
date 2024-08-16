@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
+    <link type='image/x-icon' rel='shortcut icon' href="{{ url_for('static', filename='img/favicon.ico') }}" />
     <style>
+        html,
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            height: 100%;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            background-color: #f4f4f4;
         }
 
         .login-container {
@@ -98,18 +100,22 @@
         }
     </style>
 </head>
+
 <body>
+    {% include 'header.html' %}
+    <div style="width: 100%; display: flex; justify-content: center; align-items: center; height: 56vh;">
+    
     <div class="login-container">
         <form action="{{ url_for('login') }}" method="POST" class="login-form">
             <h2>Iniciar Sesión</h2>
             {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                <div class="messages">
-                  {% for category, message in messages %}
-                    <div class="{{ category }}">{{ message }}</div>
-                  {% endfor %}
-                </div>
-              {% endif %}
+            {% if messages %}
+            <div class="messages">
+                {% for category, message in messages %}
+                <div class="{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% endwith %}
             <div class="form-group">
                 <label for="username">Usuario</label>
@@ -122,6 +128,10 @@
             <button type="submit">Ingresar</button>
         </form>
     </div>
+    
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+</div>
+{% include 'footer.html' %}
 </body>
+
 </html>
