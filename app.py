@@ -259,12 +259,21 @@ def cargar_documento():
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
 
+         # Verificar si el nombre del documento ya existe en la base de datos
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT COUNT(*) FROM archivos WHERE nombre = %s", [filename])
+        documento_existente = cursor.fetchone()[0]
+
+        if documento_existente > 0:
+            flash('El documento ya existe en la base de datos.', 'error')
+            return redirect('upload')
+
         # Obtener el peso del archivo
         peso = os.path.getsize(file_path)
 
         # Recoger los otros campos del formulario
         id_mp = request.form.get('id_mp')
-        id_p = request.form.get('id_p')
+        id_p = request.form.get('id_p', 'XXX')  # Si id_p no se proporciona, se asigna 'XXX' por defecto
         id_tipo_documento = request.form['id_tipo_documento']
         anio = request.form['anio']
         numero = request.form['numero']
@@ -282,8 +291,8 @@ def cargar_documento():
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """, (filename, id_tipo_documento, anio, numero, peso, descripcion, subido_por, fecha_subida))
 
-        # Si se han proporcionado id_mp y id_p, verificar existencia y luego insertar en listado_documentos
-        if id_mp and id_p:
+        # Si se ha proporcionado id_mp, verificar existencia y luego insertar en listado_documentos
+        if id_mp:
             # Verificar existencia en la tabla macroprocesos
             cursor.execute("SELECT COUNT(*) FROM macroprocesos WHERE id_mp = %s", [id_mp])
             if cursor.fetchone()[0] == 0:
@@ -291,14 +300,15 @@ def cargar_documento():
                 mysql.connection.rollback()
                 return redirect(request.url)
 
-            # Verificar existencia en la tabla procesos
-            cursor.execute("SELECT COUNT(*) FROM procesos WHERE id_p = %s AND id_mp = %s", [id_p, id_mp])
-            if cursor.fetchone()[0] == 0:
-                flash("El id_p proporcionado no existe o no está relacionado con el id_mp dado.")
-                mysql.connection.rollback()
-                return redirect(request.url)
+            # Verificar existencia en la tabla procesos (excepto si id_p es 'XXX')
+            if id_p != 'XXX':
+                cursor.execute("SELECT COUNT(*) FROM procesos WHERE id_p = %s AND id_mp = %s", [id_p, id_mp])
+                if cursor.fetchone()[0] == 0:
+                    flash("El id_p proporcionado no existe o no está relacionado con el id_mp dado.")
+                    mysql.connection.rollback()
+                    return redirect(request.url)
 
-            # Si ambos existen, insertar en listado_documentos
+            # Insertar en listado_documentos
             cursor.execute("""
                 INSERT INTO listado_documentos (nombre, id_mp, id_p)
                 VALUES (%s, %s, %s)
@@ -312,7 +322,6 @@ def cargar_documento():
     else:
         flash('Tipo de archivo no permitido')
         return redirect(request.url)
-
     
 @app.route('/upload', methods=['GET'])
 @login_required

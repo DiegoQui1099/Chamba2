@@ -163,12 +163,7 @@
 
                 <div class="form-group">
                     <label for="anio">Año:</label>
-                    <select name="anio" id="anio" class="form-control">
-                        <option value="">Seleccione...</option>
-                        {% for anio_item in anio %}
-                        <option value="{{ anio_item[0] }}">{{ anio_item[0] }}</option>
-                        {% endfor %}
-                    </select>
+                    <input type="number" name="anio" id="anio" class="form-control" placeholder="Ingrese el año" min="1900" max="{{ current_year }}" required>
                 </div>
 
                 <div class="form-group">
