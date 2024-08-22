@@ -16,9 +16,30 @@ app.config.from_object(Config)
 app.secret_key = 'tu_clave_secreta_aqui'
 mysql = MySQL(app)
 
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = '_docs'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = None
+
+# Diccionario de abreviaturas y sus descripciones
+ABREVIATURAS = {
+    'ACT': 'Acto Legislativo',
+    'CIR': 'Circular',
+    'DEC': 'Decreto',
+    'LEY': 'Ley',
+    'RES': 'Resolución',
+    'ACU': 'Acuerdo',
+    'DIR': 'Directiva',
+    'INS': 'Instructivo',
+    'NOR': 'Norma',
+    'REG': 'Reglamento',
+    'COP': 'Constitución',
+    'CIRC': 'Circular Conjunta',
+    'CIRE': 'Circular Externa',
+    'MAN': 'Manual',
+    'CCIR': 'Carta Circular',
+    'JUR': 'Jurisprudencia',
+    'DOC': 'Doctrina'
+}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -135,10 +156,15 @@ def download_file(filename):
     
     if result:
         filename = result[0]
-        file_path = os.path.join('uploads', filename)
 
-        # Verifica si el archivo existe en la carpeta uploads
-        if os.path.exists(file_path):
+        # Busca en todas las subcarpetas dentro de _docs
+        file_path = None
+        for root, dirs, files in os.walk('_docs'):
+            if filename in files:
+                file_path = os.path.join(root, filename)
+                break
+
+        if file_path and os.path.exists(file_path):
             with open(file_path, 'rb') as f:
                 file_content = f.read()
 
@@ -243,55 +269,82 @@ def after_request(response):
     return response
 
 #Para cargar documentos 
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'pdf', 'doc'}
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+ 
+#Para cargar documentos
 @app.route('/cargar_documento', methods=['POST'])
 def cargar_documento():
     if 'file' not in request.files:
         flash('No se ha seleccionado ningún archivo')
         return redirect(request.url)
-    
+   
     file = request.files['file']
     if file.filename == '':
         flash('No se ha seleccionado ningún archivo')
         return redirect(request.url)
-    
+   
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(file_path)
-
-         # Verificar si el nombre del documento ya existe en la base de datos
+        # Recoger el tipo de documento seleccionado
+        id_tipo_documento = request.form['id_tipo_documento']
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT COUNT(*) FROM archivos WHERE nombre = %s", [filename])
-        documento_existente = cursor.fetchone()[0]
-
-        if documento_existente > 0:
-            flash('El documento ya existe en la base de datos.', 'error')
-            return redirect('upload')
-
-        # Obtener el peso del archivo
-        peso = os.path.getsize(file_path)
+        
+        # Obtener la abreviatura del tipo de documento seleccionado
+        cursor.execute("SELECT descripcion FROM tipo_documento WHERE id = %s", (id_tipo_documento,))
+        tipo_documento = cursor.fetchone()
+        
+        if not tipo_documento:
+            flash("El tipo de documento seleccionado no es válido.")
+            return redirect(request.url)
+        
+        sigla_tipo_norma = next((key for key, value in ABREVIATURAS.items() if value == tipo_documento[0]), None)
+        if not sigla_tipo_norma:
+            flash("No se encontró la abreviatura correspondiente al tipo de documento seleccionado.")
+            return redirect(request.url)
 
         # Recoger los otros campos del formulario
-        id_mp = request.form.get('id_mp')
-        id_p = request.form.get('id_p', 'XXX')  # Si id_p no se proporciona, se asigna 'XXX' por defecto
-        id_tipo_documento = request.form['id_tipo_documento']
         anio = request.form['anio']
         numero = request.form['numero']
-        descripcion = request.form['descripcion']
-
+        
+        # Construir el nuevo nombre del archivo
+        extension = os.path.splitext(file.filename)[1]  # Obtener la extensión del archivo
+        nuevo_nombre = f"{sigla_tipo_norma}_{anio}_{numero}{extension}"
+        
+        # Determinar la carpeta de destino según el tipo de documento
+        folder = os.path.join(app.config['UPLOAD_FOLDER'], id_tipo_documento)
+        os.makedirs(folder, exist_ok=True)  # Crear la carpeta si no existe
+        
+        # Guardar el archivo con el nuevo nombre
+        file_path = os.path.join(folder, nuevo_nombre)
+        file.save(file_path)
+ 
+        # Verificar si el nombre del documento ya existe en la base de datos
+        cursor.execute("SELECT COUNT(*) FROM archivos WHERE nombre = %s", [nuevo_nombre])
+        documento_existente = cursor.fetchone()[0]
+ 
+        if documento_existente > 0:
+            flash('El documento ya existe en la base de datos.', 'error')
+            return redirect(request.url)
+ 
+        # Obtener el peso del archivo
+        peso = os.path.getsize(file_path)
+        
         # Obtener el usuario que subió el archivo y la fecha de subida
         subido_por = session['username']
         fecha_subida = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        cursor = mysql.connection.cursor()
-
+ 
         # Insertar datos en la tabla archivos
         cursor.execute("""
             INSERT INTO archivos (nombre, id_tipo_documento, anio, numero, peso, descripcion, subido_por, fecha_subida)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        """, (filename, id_tipo_documento, anio, numero, peso, descripcion, subido_por, fecha_subida))
-
+        """, (nuevo_nombre, id_tipo_documento, anio, numero, peso, request.form['descripcion'], subido_por, fecha_subida))
+ 
         # Si se ha proporcionado id_mp, verificar existencia y luego insertar en listado_documentos
+        id_mp = request.form.get('id_mp')
+        id_p = request.form.get('id_p', 'XXX')  # Si id_p no se proporciona, se asigna 'XXX' por defecto
+        
         if id_mp:
             # Verificar existencia en la tabla macroprocesos
             cursor.execute("SELECT COUNT(*) FROM macroprocesos WHERE id_mp = %s", [id_mp])
@@ -299,7 +352,7 @@ def cargar_documento():
                 flash("El id_mp proporcionado no existe.")
                 mysql.connection.rollback()
                 return redirect(request.url)
-
+ 
             # Verificar existencia en la tabla procesos (excepto si id_p es 'XXX')
             if id_p != 'XXX':
                 cursor.execute("SELECT COUNT(*) FROM procesos WHERE id_p = %s AND id_mp = %s", [id_p, id_mp])
@@ -307,16 +360,16 @@ def cargar_documento():
                     flash("El id_p proporcionado no existe o no está relacionado con el id_mp dado.")
                     mysql.connection.rollback()
                     return redirect(request.url)
-
+ 
             # Insertar en listado_documentos
             cursor.execute("""
                 INSERT INTO listado_documentos (nombre, id_mp, id_p)
                 VALUES (%s, %s, %s)
-            """, (filename, id_mp, id_p))
-
+            """, (nuevo_nombre, id_mp, id_p))
+ 
         mysql.connection.commit()
         cursor.close()
-
+ 
         flash('Documento subido y guardado exitosamente')
         return redirect(url_for('upload'))
     else:
@@ -337,13 +390,12 @@ def upload():
    
     cursor.execute("SELECT id, descripcion FROM tipo_documento")
     documento = cursor.fetchall()
-   
-    cursor.execute("SELECT DISTINCT anio FROM archivos ORDER BY anio DESC")
-    anio = cursor.fetchall()
-   
+
+    # Generar un rango de años desde 1900 hasta 2070
+    anios = list(range(1900, 2071))
     cursor.close()
 
-    return render_template('upload.html', macroprocesos=macroprocesos, procesos=procesos, documento=documento, anio=anio)
+    return render_template('upload.html', macroprocesos=macroprocesos, procesos=procesos, documento=documento, anios=anios)
 
 
 
